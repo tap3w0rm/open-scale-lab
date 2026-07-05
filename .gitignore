@@ -1,0 +1,54 @@
+# OS/editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs and local run output
+*.log
+logs/
+*.tmp
+*.bak
+*.old
+crashdumps/
+dumps/
+
+# Android packages and reverse-engineering work products
+*.apk
+*.xapk
+*.apks
+*.dex
+*.odex
+*.vdex
+*.so
+jadx*/
+apktool*/
+decompiled*/
+
+# Large/generated binary research artifacts
+*.bin
+*.elf
+*.dll
+*.exe
+*.pdb
+*.lib
+*.a
+*.zip
+*.7z
+*.rar
+
+# Build outputs
+target/
+dist/
+build/
+out/
+node_modules/
+
+# Local secrets/config
+.env
+.env.*
+config.local.*
+secrets.*
