@@ -78,6 +78,15 @@ Open questions:
 - Does Bytech sell/share consumer health data under any US state privacy law definitions?
 - Can users delete cloud records and accounts?
 
+Related-app leads:
+
+| App | Lead | Why it matters |
+|---|---|---|
+| Sealy Smart Scale | Google Play package `com.daxin.sealyscale` under Bytech Intl | Suggests Daxin involvement in another Bytech smart-scale app. |
+| Sealy Smart Scale | Apple App Store privacy label discloses `Identifiers / User ID` | Similar scale app is more explicit than Bwell Health's iOS `Data Not Collected` label. |
+| Equate Monitors | Google Play support email `daxinhealth@gmail.com` under Bytech Intl | Ties Daxin support operations to another Bytech health-device app. |
+| Equate Monitors | Google Play says it may share `Location` but also says `No data collected` | Another label consistency question. |
+
 ### Guangzhou Daxin Health Technology Co., Ltd.
 
 Role:

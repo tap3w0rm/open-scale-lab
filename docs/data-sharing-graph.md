@@ -15,6 +15,8 @@ flowchart LR
   AppStoreLabels -. "declares: Data Not Collected" .-> IOS
   Bytech["Bytech / BWell"] -- "publishes_app / brands_product" --> App
   Bytech -- "publishes_app" --> IOS
+  Bytech -- "publishes_related_health_apps" --> RelatedApps["Sealy Smart Scale / Equate Monitors / other device apps"]
+  RelatedApps -. "lead: com.daxin.sealyscale package" .-> Daxin
   Belter["Shenzhen Belter"] -- "manufactures_hardware: FCC applicant" --> Scale
   Chipsea["Chipsea"] -- "provides_algorithm: native BIA library" --> App
   Daxin -- "hosted_on: current DNS/IP observation" --> Alibaba["Alibaba Cloud / AS45102"]
@@ -75,6 +77,7 @@ flowchart LR
 | Alibaba Cloud / AS45102 | Infrastructure | https://www.alibabacloud.com/ | Current backend IP infrastructure observation. |
 | Fosun Pharma | Investor | https://www.fosunpharma.com/ | Investor/associate context for Belter; no data role proven. |
 | Retailers/resellers | Sales channel | Varies | Product sale only; no measurement data path observed. |
+| Related Bytech apps | Adjacent app ecosystem | Bytech app-store listings | Leads for shared vendor/backend research; no shared database proven. |
 
 ## Data Box Analysis
 
@@ -98,6 +101,7 @@ The app does not keep sensitive data in one privacy box:
 | 1 | Compare Google Play Data Safety and Apple App Privacy declarations against Android app evidence. |
 | 1 | Review Tencent Bugly SDK privacy statement for collected identifiers and crash data content. |
 | 2 | Review Bytech's related health/device apps for shared package names, backends, SDKs, and privacy labels. |
+| 2 | Inspect `com.daxin.sealyscale` and `com.bloodoxygen.bytechintl` APKs for Daxin/Bytech backend reuse. |
 | 2 | Identify Daxin affiliates and apps, then review their policies. |
 | 2 | Search credible breach/regulatory sources for each high-priority company. |
 | 3 | Review Belter and Chipsea only for data-flow evidence, SDK terms, and regulatory reputation. |
