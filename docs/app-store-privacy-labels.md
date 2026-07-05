@@ -24,6 +24,12 @@ official and shows account/upload/server-related UI strings plus HealthKit and
 Bluetooth permissions, but the main executable is App Store encrypted. Runtime
 traffic capture is still required before claiming that the iOS label is false.
 
+Related Bytech health apps show the same pattern is worth broader review. Sealy
+Smart Scale Android discloses some collection in Google Play and its reviewed
+APK does upload body-composition records to Daxin. Equate Monitors Google Play
+says `No data collected`, while its reviewed APK contains Daxin upload paths
+for oxygen and temperature records.
+
 ## Google Play Listing
 
 Reviewed source:
@@ -186,6 +192,27 @@ That Bytech policy is much broader than the Google Play Data Safety summary of
 The Apple-linked BWell privacy page currently renders poorly without JavaScript
 in static capture and needs a browser/manual capture.
 
+## Related App Labels
+
+Sealy Smart Scale:
+
+| Platform | Public label | Technical evidence |
+|---|---|---|
+| Google Play | No third-party sharing; may collect `Location` and `Personal info`. | Reviewed Android APK posts scale/body-composition records to `https://sealy.daxinhealth.com/api/composition/upload` and offline batches to `/composition/uploadOffLine`. |
+| Apple App Store | `Data Not Linked to You`; `Identifiers / User ID` for app functionality. | iOS package not reviewed in this pass. |
+
+Equate Monitors:
+
+| Platform | Public label | Technical evidence |
+|---|---|---|
+| Google Play | May share `Location`; `No data collected`. | Reviewed Android APK posts oxygen records to `https://test.daxinhealth.com/bloodOxygen/upload` and temperature records to `https://test.daxinhealth.com/temperature/upload`. |
+| Apple App Store | Needs app-specific capture. | iOS package not reviewed in this pass. |
+
+The Equate label is especially notable because the public listing says the app
+can display, record, and view historical measurement data, while the reviewed
+Android code contains a background uploader for queued oxygen and temperature
+records.
+
 ## Evidence Grading
 
 | Claim | Current confidence | Why |
@@ -198,6 +225,9 @@ in static capture and needs a browser/manual capture.
 | iOS app package declares no collected data in privacy manifest | High | Official Apple-sourced IPA metadata. |
 | iOS app has account/upload/server UI flows | Medium-high | Visible strings in official IPA resources. |
 | iOS app actually uploads health records to Daxin or any backend | Unknown | Requires runtime traffic capture or decrypted app analysis. |
+| Sealy Smart Scale Android uploads body-composition records to Daxin | High | Reviewed APK hardcodes Daxin backend and upload/offline-upload endpoints. |
+| Equate Monitors Android uploads oxygen and temperature records to Daxin | High | Reviewed APK hardcodes Daxin backend and upload endpoints. |
+| Equate Monitors Google Play label appears inconsistent with Android technical behavior | High | Public label says `No data collected`; reviewed Android code posts account-linked measurement records. |
 
 ## Next Steps
 
@@ -208,3 +238,7 @@ in static capture and needs a browser/manual capture.
 5. If the iOS app transmits account, health, device, or telemetry data, compare
    the observed data categories directly against Apple's `Data Not Collected`
    label and the empty `NSPrivacyCollectedDataTypes` manifest.
+6. Capture Google Play Data Safety detail views for Sealy Smart Scale and
+   Equate Monitors.
+7. Runtime-test Equate Monitors network behavior to confirm the static upload
+   code paths in live use.

@@ -21,6 +21,7 @@ Current strongest concerns:
 | Google Play says Android Bwell health has "No data collected" | Found in Google Play listing; conflicts with Android upload evidence. |
 | Apple App Store says iOS Bwell Health has "Data Not Collected" | Found in Apple listing; iOS runtime verification still needed before claiming a live iOS contradiction. |
 | Bytech policy linked from Google Play is broad and not BWell-specific | Found in Bytech Smart Home Privacy Policy. |
+| Related Bytech health apps also use Daxin backends | Sealy Smart Scale Android uploads scale/body records to `sealy.daxinhealth.com`; Equate Monitors Android uploads oxygen/temperature records to `test.daxinhealth.com`. |
 | No credible public breach found in first quick pass for Bytech/Daxin/Belter | Absence of evidence only. Needs systematic source log. |
 
 ## Company Reviews
@@ -54,6 +55,7 @@ Current policy findings:
 | Bytech policy sale/share claim | The policy says it has not disclosed, sold, or shared personal information to third parties for a business or commercial purpose in the preceding 12 months and will not sell/share in the future. It also separately says targeted advertising/online tracking may be deemed sale/sharing under some US state laws. |
 | BWell site | Apple links to `https://bwellmonitors.com/privacy-policy`, but the static capture renders mostly as a JavaScript shell and still needs browser/screenshot capture. |
 | Apple App Privacy | Apple listing says `Data Not Collected` for `Bwell Health` by `BYTECH NY, INC.` |
+| Related app policy link | Sealy Smart Scale and Equate Monitors point users back toward Bytech policy pages while their Android packages contain Daxin backend upload paths. |
 
 Potential mismatch:
 
@@ -82,10 +84,11 @@ Related-app leads:
 
 | App | Lead | Why it matters |
 |---|---|---|
-| Sealy Smart Scale | Google Play package `com.daxin.sealyscale` under Bytech Intl | Suggests Daxin involvement in another Bytech smart-scale app. |
+| Sealy Smart Scale | Android code posts body-composition records to `https://sealy.daxinhealth.com/api` | Proves Daxin backend involvement in another Bytech smart-scale app. |
 | Sealy Smart Scale | Apple App Store privacy label discloses `Identifiers / User ID` | Similar scale app is more explicit than Bwell Health's iOS `Data Not Collected` label. |
+| Equate Monitors | Android code posts oxygen and temperature records to `https://test.daxinhealth.com` | Proves Daxin backend involvement in another Bytech health-device app. |
 | Equate Monitors | Google Play support email `daxinhealth@gmail.com` under Bytech Intl | Ties Daxin support operations to another Bytech health-device app. |
-| Equate Monitors | Google Play says it may share `Location` but also says `No data collected` | Another label consistency question. |
+| Equate Monitors | Google Play says it may share `Location` but also says `No data collected` | Conflicts with reviewed Android upload paths for oxygen and temperature records. |
 
 ### Guangzhou Daxin Health Technology Co., Ltd.
 
@@ -107,6 +110,8 @@ Policy findings:
 | Item | Finding |
 |---|---|
 | Backend endpoint | Android app posts scale records to `https://tj.daxinhealth.com/composition/upload`. |
+| Related app endpoint | Sealy Smart Scale Android posts scale/body records under `https://sealy.daxinhealth.com/api`. |
+| Related app endpoint | Equate Monitors Android posts oxygen and temperature records under `https://test.daxinhealth.com`. |
 | Privacy page | Daxin privacy page says personal information may be used and shared within the company or affiliated enterprises for services, transactions, understanding needs, and contact. |
 | Product scope | Public Daxin pages list Bluetooth scales and body-fat scales, including `EF-919B4`. |
 | Affiliates/entities | Daxin about page says Daxin registered Ehealth Technology Co., Ltd. in Hong Kong and Daxin Health Technology Co., Ltd. in Taiwan. |
@@ -129,6 +134,8 @@ Open questions:
 
 - Is Daxin the backend data controller, a processor for Bytech, or both?
 - Which Daxin affiliate receives or can access BWell records?
+- Are Bwell, Sealy, and Equate separate backend deployments, separate databases,
+  or different apps on a shared platform?
 - What retention period applies to uploaded scale records?
 - Does Daxin allow deletion/export/correction of BWell records?
 - Are records stored in China, the US, or both?
@@ -258,6 +265,7 @@ Findings:
 | App code | App can sync weight, body fat, BMR, bone mass/mineral, and timestamp to Health Connect. |
 | Optionality | Controlled by app setting and Health Connect permissions. |
 | Backend independence | Health Connect does not stop vendor backend upload. |
+| Related apps | Sealy requests Health Connect writes for weight/body fat/BMR; Equate requests writes for body temperature and oxygen saturation. |
 
 Open questions:
 
@@ -328,8 +336,8 @@ Open questions:
 
 | Entity | First-pass result | Confidence |
 |---|---|---:|
-| Bytech/BWell | No credible public data breach found in quick pass; app privacy-label review needed. | Low-medium |
-| Daxin | No credible public data breach found in quick pass; broad affiliate-sharing policy language found. | Low-medium |
+| Bytech/BWell | No credible public data breach found in quick pass; related-app APK review strengthens ecosystem/backend concerns. | Low-medium |
+| Daxin | No credible public data breach found in quick pass; broad affiliate-sharing policy language and repeated backend use found. | Low-medium |
 | Belter | No credible public data breach found in quick pass; regulatory/product records found. | Low-medium |
 | Chipsea | Not enough breach/reputation search completed. | Low |
 | Tencent Bugly | Proven telemetry SDK; policy/compliance review needed; anecdotal developer complaints require primary verification. | Medium |
@@ -344,5 +352,5 @@ Open questions:
 4. Capture Daxin privacy/legal pages in English and Chinese.
 5. Search official breach/regulator portals for Bytech, Daxin, Belter, Chipsea, Tencent Bugly, and Alibaba Cloud.
 6. Review Tencent Bugly SDK privacy statement and Google Play SDK Index entry for `com.tencent.bugly:crashreport`.
-7. Review Bytech's related apps for package names, backend domains, and privacy labels.
+7. Runtime-test Sealy Smart Scale and Equate Monitors to confirm the static Daxin upload paths.
 8. Start an evidence table for "sell/share" language by company.

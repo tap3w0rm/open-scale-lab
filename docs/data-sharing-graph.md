@@ -16,7 +16,12 @@ flowchart LR
   Bytech["Bytech / BWell"] -- "publishes_app / brands_product" --> App
   Bytech -- "publishes_app" --> IOS
   Bytech -- "publishes_related_health_apps" --> RelatedApps["Sealy Smart Scale / Equate Monitors / other device apps"]
-  RelatedApps -. "lead: com.daxin.sealyscale package" .-> Daxin
+  Sealy["Sealy Smart Scale Android"] -- "uploads_to: scale/body records" --> SealyDaxin["sealy.daxinhealth.com"]
+  Equate["Equate Monitors Android"] -- "uploads_to: oxygen/temp records" --> EquateDaxin["test.daxinhealth.com"]
+  SealyDaxin --> Daxin
+  EquateDaxin --> Daxin
+  RelatedApps -- "includes reviewed apps" --> Sealy
+  RelatedApps -- "includes reviewed apps" --> Equate
   Belter["Shenzhen Belter"] -- "manufactures_hardware: FCC applicant" --> Scale
   Chipsea["Chipsea"] -- "provides_algorithm: native BIA library" --> App
   Daxin -- "hosted_on: current DNS/IP observation" --> Alibaba["Alibaba Cloud / AS45102"]
@@ -32,6 +37,10 @@ flowchart LR
 | Bwell Health Android app | `tj.daxinhealth.com` | `uploads_to` | Final body-composition records, user id, test date | High | Hardcoded backend and upload method. |
 | Bwell Health Android app | Tencent Bugly | `crash_telemetry_to` | Crash/exception telemetry plus app-set user identifiers | High | App initializes Bugly and sets user id/email/mobile/nickname after login. |
 | Bwell Health Android app | Android Health Connect | `optional_sync_to` | Weight, body fat, BMR, bone mass/mineral value, timestamp | High | App code path exists and is user/permission controlled. |
+| Sealy Smart Scale Android app | `sealy.daxinhealth.com` | `uploads_to` | User-linked scale/body-composition records including weight, impedance, BMI, BMR, fat, visceral fat, muscle, bone, protein, moisture, body score, physical age, timestamp | High | Reviewed APK hardcodes Daxin backend and live/offline upload endpoints. |
+| Sealy Smart Scale Android app | Tencent Bugly | `crash_telemetry_to` | Crash/exception telemetry plus app-set user id and email | High | Reviewed APK initializes Bugly and sets user data. |
+| Equate Monitors Android app | `test.daxinhealth.com` | `uploads_to` | User-linked oxygen records and temperature records | High | Reviewed APK hardcodes Daxin backend and upload endpoints. |
+| Equate Monitors Android app | Tencent Bugly | `crash_telemetry_to` | Crash/exception telemetry plus app-set host id, sub-user id, email, and nickname | High | Reviewed APK initializes Bugly and sets user data. |
 
 ## App-Store Privacy Declarations
 
@@ -58,7 +67,8 @@ flowchart LR
 | Bytech has backend/admin access to Daxin-hosted BWell records | Bytech is app publisher and BWell brand owner, while backend is Daxin. App operation likely requires support/operations access. | Contract, admin endpoint evidence, policy disclosure, or direct statement. |
 | Daxin shares BWell data with affiliates | Daxin privacy language allows sharing within company or affiliated enterprises. | Product-specific policy naming affiliates, data-processing agreement, or backend/vendor disclosure. |
 | Bugly crash records include some scale/request data during errors | App posts caught HTTP/JSON exceptions and attaches user identifiers. Exceptions around upload/parsing may include request/response context. | Captured Bugly payload or app path proving measurement fields are placed in exception text. |
-| Bytech related apps use the same backend stack | Bytech publishes several health/device apps; Sealy Smart Scale package name includes `daxin`. | APK/code review of each related app. |
+| All Bytech related apps use the same backend stack | Two reviewed related Android health apps use Daxin backend domains, but that does not prove every Bytech app does. | APK/code review and runtime testing of each related app. |
+| Bwell, Sealy, and Equate share one database | The apps use Daxin domains and similar account/history/upload patterns. | Server-side evidence, account cross-access, contracts, admin endpoints, or direct disclosure. |
 | Belter receives app records | Belter is OEM/FCC applicant and may provide SDK/protocol code. | Backend domain, policy, contract, or network evidence tying upload to Belter. |
 | Chipsea receives runtime measurements | Chipsea provides local native library and markets app/cloud solutions. | Network evidence to Chipsea domain or policy saying Chipsea processes app data. |
 
@@ -77,7 +87,7 @@ flowchart LR
 | Alibaba Cloud / AS45102 | Infrastructure | https://www.alibabacloud.com/ | Current backend IP infrastructure observation. |
 | Fosun Pharma | Investor | https://www.fosunpharma.com/ | Investor/associate context for Belter; no data role proven. |
 | Retailers/resellers | Sales channel | Varies | Product sale only; no measurement data path observed. |
-| Related Bytech apps | Adjacent app ecosystem | Bytech app-store listings | Leads for shared vendor/backend research; no shared database proven. |
+| Related Bytech apps | Adjacent app ecosystem | Bytech app-store listings | Sealy and Equate Android apps prove repeated Daxin backend use; no shared database proven. |
 
 ## Data Box Analysis
 
@@ -100,8 +110,8 @@ The app does not keep sensitive data in one privacy box:
 | 1 | Capture Daxin privacy/legal pages in English and Chinese if available. |
 | 1 | Compare Google Play Data Safety and Apple App Privacy declarations against Android app evidence. |
 | 1 | Review Tencent Bugly SDK privacy statement for collected identifiers and crash data content. |
-| 2 | Review Bytech's related health/device apps for shared package names, backends, SDKs, and privacy labels. |
-| 2 | Inspect `com.daxin.sealyscale` and `com.bloodoxygen.bytechintl` APKs for Daxin/Bytech backend reuse. |
+| 2 | Runtime-test Sealy Smart Scale and Equate Monitors against static APK upload findings. |
+| 2 | Review additional Bytech health/device apps for shared package names, backends, SDKs, and privacy labels. |
 | 2 | Identify Daxin affiliates and apps, then review their policies. |
 | 2 | Search credible breach/regulatory sources for each high-priority company. |
 | 3 | Review Belter and Chipsea only for data-flow evidence, SDK terms, and regulatory reputation. |
