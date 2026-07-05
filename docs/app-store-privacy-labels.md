@@ -23,6 +23,9 @@ The iOS finding is not yet a proven contradiction. The iOS app package is
 official and shows account/upload/server-related UI strings plus HealthKit and
 Bluetooth permissions, but the main executable is App Store encrypted. Runtime
 traffic capture is still required before claiming that the iOS label is false.
+See the [iOS app acquisition log](ios-app-acquisition-log.md) and
+[iOS app initial teardown](ios-bwell-app-initial-teardown.md) for the current
+iOS evidence boundary.
 
 Related Bytech health apps show the same pattern is worth broader review. Sealy
 Smart Scale Android discloses some collection in Google Play and its reviewed

@@ -10,6 +10,8 @@ Distribution report, compiled from Android app reverse engineering, live BLE pro
 - [Privacy policy and reputation review](docs/privacy-policy-and-reputation-review.md)
 - [Sell, share, and policy matrix](docs/sell-share-and-policy-matrix.md)
 - [Related Bytech health and device apps](docs/related-bytech-health-apps.md)
+- [iOS app acquisition log](docs/ios-app-acquisition-log.md)
+- [iOS app initial teardown](docs/ios-bwell-app-initial-teardown.md)
 - [BLE scale protocol](docs/ble-scale-protocol.md)
 - [Chipsea body-composition analysis](docs/chipsea-body-composition.md)
 
