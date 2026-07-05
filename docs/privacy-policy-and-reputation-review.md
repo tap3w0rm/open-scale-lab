@@ -21,6 +21,8 @@ Current strongest concerns:
 | Google Play says Android Bwell health has "No data collected" | Found in Google Play listing; conflicts with Android upload evidence. |
 | Apple App Store says iOS Bwell Health has "Data Not Collected" | Found in Apple listing; iOS runtime verification still needed before claiming a live iOS contradiction. |
 | Bytech policy linked from Google Play is broad and not BWell-specific | Found in Bytech Smart Home Privacy Policy. |
+| BWell policy page acknowledges app measurement storage | Extracted page-source text says BWell Health app measurement data is stored on the company server for history queries. |
+| Daxin's own scale app policy acknowledges health-data collection | Daxin `ehealth scale` policy says connected-device health data including weight, fat rate, BMI, and water rate is recorded. |
 | Related Bytech health apps also use Daxin backends | Sealy Smart Scale Android uploads scale/body records to `sealy.daxinhealth.com`; Equate Monitors Android uploads oxygen/temperature records to `test.daxinhealth.com`. |
 | No credible public breach found in first quick pass for Bytech/Daxin/Belter | Absence of evidence only. Needs systematic source log. |
 
@@ -53,7 +55,10 @@ Current policy findings:
 | Bytech policy collection | The policy says Bytech may collect names, email addresses, phone numbers, passwords, mobile app Bluetooth access, mobile device data, log/usage data, crash dumps, IP address, geolocation, and app-feature activity. |
 | Bytech policy sensitive data claim | The policy says Bytech does not process sensitive personal information. This needs comparison against the health/body-composition nature of Bwell Health data. |
 | Bytech policy sale/share claim | The policy says it has not disclosed, sold, or shared personal information to third parties for a business or commercial purpose in the preceding 12 months and will not sell/share in the future. It also separately says targeted advertising/online tracking may be deemed sale/sharing under some US state laws. |
-| BWell site | Apple links to `https://bwellmonitors.com/privacy-policy`, but the static capture renders mostly as a JavaScript shell and still needs browser/screenshot capture. |
+| BWell site | Apple links to `https://bwellmonitors.com/privacy-policy`. The page is JavaScript-rendered, but policy text is embedded in the page source. |
+| BWell policy collection | The extracted page-source text says BWell Health app use may collect BWell ID/account details, nickname, email address, registered devices, account status, device serial number, height, age, gender, athlete status, and measurement-result data. |
+| BWell policy measurement storage | The extracted text says measurement data from using the product will be stored on the company server for history queries. |
+| BWell policy sale/share claim | The extracted text says BWell does not sell data under New York, Nevada, and California definitions and will not share personal data with third parties without consent except when the user uses app sharing features. |
 | Apple App Privacy | Apple listing says `Data Not Collected` for `Bwell Health` by `BYTECH NY, INC.` |
 | Related app policy link | Sealy Smart Scale and Equate Monitors point users back toward Bytech policy pages while their Android packages contain Daxin backend upload paths. |
 
@@ -112,15 +117,19 @@ Policy findings:
 | Backend endpoint | Android app posts scale records to `https://tj.daxinhealth.com/composition/upload`. |
 | Related app endpoint | Sealy Smart Scale Android posts scale/body records under `https://sealy.daxinhealth.com/api`. |
 | Related app endpoint | Equate Monitors Android posts oxygen and temperature records under `https://test.daxinhealth.com`. |
-| Privacy page | Daxin privacy page says personal information may be used and shared within the company or affiliated enterprises for services, transactions, understanding needs, and contact. |
+| Website privacy page | Daxin privacy page says personal information may be used and shared within the company or affiliated enterprises for services, transactions, understanding needs, and contact. |
+| App-specific policy | Daxin `ehealth scale` policy, dated January 18, 2024, says Daxin records health data from connected devices, including weight, fat rate, BMI, and water rate. |
+| Daxin SDK/vendor list | Daxin `ehealth scale` policy names Bugly, Google Fit, Fitbit, Alibaba Cloud SMS, and Tencent enterprise email as third-party services for specific functions. |
+| Daxin storage/cross-border language | The `ehealth scale` policy says collected information may be stored on app and/or affiliate servers and may be transferred to or accessed from outside the user's country/region. |
 | Product scope | Public Daxin pages list Bluetooth scales and body-fat scales, including `EF-919B4`. |
 | Affiliates/entities | Daxin about page says Daxin registered Ehealth Technology Co., Ltd. in Hong Kong and Daxin Health Technology Co., Ltd. in Taiwan. |
 
 Sell/share status:
 
 - The reviewed English privacy language supports "use/share within company or affiliated enterprises."
+- Daxin's app-specific policy says it will not provide, sell, rent, share, or trade personal information with unrelated third parties except as the policy permits, but it also permits third-party/service-provider sharing where needed for services.
 - No specific evidence yet of sale of BWell user health data.
-- Need Chinese policy review and app-specific privacy policy review.
+- Need product-specific clarification for BWell/Bytech data controller and processor roles.
 
 Reputation/breach status:
 
@@ -226,6 +235,9 @@ Policy/code findings:
 | User identifiers | App sets user id, email, mobile phone, and nickname after login. |
 | Error posting | App can post caught HTTP/JSON exceptions to Bugly. |
 | Bugly purpose | Tencent describes Bugly as exception reporting and operation statistics for mobile developers. |
+| Bugly retention | Bugly's international policy says information collected from apps/products is stored for 90 days and analysis reports for 2 years. |
+| Bugly developer responsibility | Bugly's policy says the app developer/company is responsible for notifying end users or seeking consent for information collected from apps/products through Bugly. |
+| Bugly Google Play note | Bugly's Android demo warns developers not to use Bugly SDKs with upgrade functionality on Google Play and notes the SDK defaults to Android ID unless a custom device id is set. |
 
 PII assessment:
 
@@ -350,7 +362,7 @@ Open questions:
 2. Capture the JavaScript-rendered BWell privacy page linked from the Apple listing.
 3. Ask Bytech whether the Bytech Smart Home policy is intended to govern Bwell Health.
 4. Capture Daxin privacy/legal pages in English and Chinese.
-5. Search official breach/regulator portals for Bytech, Daxin, Belter, Chipsea, Tencent Bugly, and Alibaba Cloud.
-6. Review Tencent Bugly SDK privacy statement and Google Play SDK Index entry for `com.tencent.bugly:crashreport`.
+5. Continue official breach/regulator portal searches for Bytech, Daxin, Belter, Chipsea, Tencent Bugly, and Alibaba Cloud.
+6. Ask Bytech and Daxin directly which entity is controller/processor for BWell, Sealy, and Equate records.
 7. Runtime-test Sealy Smart Scale and Equate Monitors to confirm the static Daxin upload paths.
 8. Start an evidence table for "sell/share" language by company.

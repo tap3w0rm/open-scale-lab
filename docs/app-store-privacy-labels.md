@@ -30,6 +30,9 @@ APK does upload body-composition records to Daxin. Equate Monitors Google Play
 says `No data collected`, while its reviewed APK contains Daxin upload paths
 for oxygen and temperature records.
 
+Daxin's own app-store labels provide a useful baseline: `ehealth scale` and
+`ehealth life` disclose health-data collection more directly than BWell Health.
+
 ## Google Play Listing
 
 Reviewed source:
@@ -213,6 +216,24 @@ can display, record, and view historical measurement data, while the reviewed
 Android code contains a background uploader for queued oxygen and temperature
 records.
 
+## Daxin App Label Baseline
+
+Daxin publishes its own health apps. Their labels are more explicit than BWell
+Health's labels:
+
+| App | Platform | Developer | Public label |
+|---|---|---|---|
+| `ehealth scale` | Apple App Store | Guangzhou Daxin Health Technology Co., Ltd | `Health & Fitness` data may be collected and linked to identity. |
+| `ehealth life` | Apple App Store China | Guangzhou Daxin Health Technology Co., Ltd | Identifiers may be used for tracking; health/fitness, location, contact info, user content, and identifiers may be linked to identity. |
+| `ehealth life` | Google Play | Guangzhou Daxin Health Technology Co., Ltd | No third-party sharing; may collect personal info, health and fitness, and photos/videos. |
+
+Why this matters:
+
+The Daxin labels show that at least some Daxin-operated health apps disclose
+health data collection in store privacy labels. BWell Health's `No data
+collected` label is therefore not simply the only way Daxin-like scale apps are
+being labeled.
+
 ## Evidence Grading
 
 | Claim | Current confidence | Why |
@@ -228,6 +249,7 @@ records.
 | Sealy Smart Scale Android uploads body-composition records to Daxin | High | Reviewed APK hardcodes Daxin backend and upload/offline-upload endpoints. |
 | Equate Monitors Android uploads oxygen and temperature records to Daxin | High | Reviewed APK hardcodes Daxin backend and upload endpoints. |
 | Equate Monitors Google Play label appears inconsistent with Android technical behavior | High | Public label says `No data collected`; reviewed Android code posts account-linked measurement records. |
+| Daxin's own scale app labels disclose health collection | High | Apple and Google Play listings for Daxin apps disclose health/fitness collection. |
 
 ## Next Steps
 
@@ -242,3 +264,5 @@ records.
    Equate Monitors.
 7. Runtime-test Equate Monitors network behavior to confirm the static upload
    code paths in live use.
+8. Capture Daxin app label screenshots as baseline evidence for Daxin's own
+   disclosure practices.

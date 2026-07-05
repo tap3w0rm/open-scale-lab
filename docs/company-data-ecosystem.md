@@ -60,6 +60,14 @@ Daxin's public "about" page lists body-fat scale models including `EF-919B4`, wh
 
 Daxin's privacy page says personal information may be used and shared within the company or with affiliated enterprises to understand user needs, provide better services, perform transactions, and contact users. That is a general website privacy statement, not a specific BWell app data-retention disclosure.
 
+Daxin also publishes its own health apps. Its `ehealth scale` policy says the
+app records health data from connected devices, including weight, fat rate, BMI,
+and water rate. It also names third-party services including Bugly, Google Fit,
+Fitbit, Alibaba Cloud SMS, and Tencent enterprise email for specific app
+functions. That policy is not a BWell policy, but it is useful because it shows
+how Daxin describes similar scale-app data practices when Daxin is the named
+app operator.
+
 Current network observation:
 
 | Hostname | Current resolved IP | Current IP owner observation |
@@ -193,6 +201,7 @@ Unknown:
 | Whether Daxin uses uploaded data for analytics/modeling beyond app features | Not proven. |
 | Whether Alibaba Cloud has any role beyond hosting/network infrastructure | Not proven. |
 | Whether Chipsea receives runtime app measurements | Not proven. |
+| Whether Daxin's `ehealth scale` policy terms also govern BWell/Sealy/Equate records | Not proven. |
 
 ## Risk Assessment
 
@@ -219,7 +228,10 @@ Unknown:
 | Daxin English site | https://en.daxinhealth.com/ |
 | Daxin about page | https://en.daxinhealth.com/html/2/guanyuwomen/index.html |
 | Daxin privacy page | https://en.daxinhealth.com/html/2/yinsibaohu/index.html |
+| Daxin ehealth scale app privacy policy | https://img.daxinhealth.com/img/ebas/uploadPath/privacy/index_zh.html |
 | Daxin ehealth scale Google Play listing | https://play.google.com/store/apps/details?id=com.daxinhealth.bodyfatscale |
+| Daxin ehealth scale Apple App Store listing | https://apps.apple.com/us/app/ehealth-scale/id6446401791 |
+| Daxin ehealth life Google Play listing | https://play.google.com/store/apps/details?id=com.daxinhealth.ehealthlife |
 | Chipsea main site | https://en.chipsea.com/ |
 | Chipsea smart body-fat scale solution | https://en.chipsea.com/app/ydjk/743.html |
 | Chipsea contact/company page | https://en.chipsea.com/about/call/ |
@@ -231,4 +243,3 @@ Unknown:
 | Apple Health app privacy | https://www.apple.com/legal/privacy/data/en/health-app/ |
 | Fosun Pharma Belter investment announcement | https://www.fosunpharma.com/en/content/details37_11238.html |
 | FCC report page for EF919B4 | https://fcc.report/FCC-ID/2AAEEEF919B4 |
-

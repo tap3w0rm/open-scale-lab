@@ -61,6 +61,7 @@ Current notes:
 - Apple lists `Bwell Health` under `BYTECH NY, INC.` and says `Data Not Collected`.
 - Bytech publishes multiple related apps/brands, including BWell, Sealy, Brookstone, and Equate apps.
 - Search results found California Proposition 65 notices involving Bytech NY, Inc. products. Those are product chemical-exposure/regulatory notices, not privacy or data-breach incidents.
+- BWell's JavaScript-rendered privacy page has extractable source text saying the BWell Health app may collect account, device, profile, and measurement-result data; it also says measurement data is stored on the company server for history queries and claims BWell does not sell data.
 
 ### Daxin
 
@@ -80,8 +81,12 @@ Used or planned:
 Current notes:
 
 - Daxin privacy language allows use/sharing within company or affiliated enterprises.
+- Daxin's app-specific `ehealth scale` policy says connected-device health data including weight, fat rate, BMI, and water rate is recorded.
+- Daxin's `ehealth scale` policy names Bugly, Google Fit, Fitbit, Alibaba Cloud SMS, and Tencent enterprise email as third-party services for specific functions.
+- Daxin's `ehealth scale` policy says collected information may be stored on app and/or affiliate servers and may be transferred to, accessed from, stored in, or displayed outside the user's country/region.
 - Daxin pages identify product categories including body-fat scales and model `EF-919B4`.
 - Daxin app listings identify Guangzhou Daxin Health Technology Co., Ltd. as developer of `ehealth scale` and `ehealth life`.
+- Daxin's own app-store labels are more explicit than BWell's: `ehealth scale` Apple App Store discloses linked health/fitness data, and `ehealth life` Google Play says personal info, health and fitness, and photos/videos may be collected.
 - Search results found an FDA 510(k) clearance letter for Guangzhou Daxin Health Technology Co., Ltd. This is medical-device regulatory context, not a data-practice incident.
 - Daxin's `ehealth life` app listing is a follow-up target for policy, backend, and privacy-label comparison.
 
@@ -141,7 +146,11 @@ Current notes:
 
 - App initializes Bugly and attaches account identifiers.
 - App can post caught exceptions to Bugly.
-- Need to review exact SDK privacy statement and data fields.
+- Bugly's international privacy policy says app/product information collected through the service is stored for 90 days and analysis reports for 2 years.
+- Bugly's policy says the app developer/company is responsible for notifying end users or seeking consent for information collected through the service.
+- Bugly's Android demo README says the SDK defaults to Android ID for crash device statistics unless a custom device id is set.
+- Bugly's Android demo README warns developers not to use Bugly SDKs with upgrade functionality on Google Play.
+- A Stack Overflow report says an app was suspended for a non-compliant Tencent Bugly SDK with code to download/install apps from outside Google Play. Treat as anecdotal lead only, not final evidence of this app's SDK behavior.
 
 ### Alibaba Cloud / AS45102
 
@@ -172,7 +181,10 @@ Current notes:
 | BWell privacy page | https://bwellmonitors.com/privacy-policy | Apple-linked privacy policy target; static capture needs JavaScript/browser follow-up. |
 | Daxin English site | https://en.daxinhealth.com/ | Backend-domain company context. |
 | Daxin privacy page | https://en.daxinhealth.com/html/2/yinsibaohu/index.html | Policy language. |
+| Daxin ehealth scale app privacy policy | https://img.daxinhealth.com/img/ebas/uploadPath/privacy/index_zh.html | App-specific Daxin scale-policy baseline. |
 | Daxin about page | https://en.daxinhealth.com/html/2/guanyuwomen/index.html | Company/app/product/affiliate context. |
+| Daxin ehealth scale Apple App Store listing | https://apps.apple.com/us/app/ehealth-scale/id6446401791 | Daxin app-store privacy-label baseline. |
+| Daxin ehealth life Google Play listing | https://play.google.com/store/apps/details?id=com.daxinhealth.ehealthlife | Daxin app-store privacy-label baseline. |
 | Tencent Bugly overview | https://docs.msdk.qq.com/v5/en/Channel/Bugly/ | SDK purpose. |
 | Tencent Bugly privacy policy | https://bugly.tds.tencent.com/docs/other/Bugly_Privacy_Policy | SDK privacy review target. |
 | Google Play SDK Index for Bugly | https://play.google.com/sdks/details/com-tencent-bugly-crashreport | SDK metadata review target. |
