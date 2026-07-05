@@ -29,6 +29,24 @@ Avoid unsupported wording:
 
 The second claim may be possible in some private business arrangement, but it is not proven by the current evidence.
 
+## Liability Posture
+
+The investigation should not end with "benign" unless the evidence affirmatively supports it. A better default posture is:
+
+> The reviewed evidence shows unresolved data-safety and disclosure gaps.
+
+That posture is stronger than saying the ecosystem is safe, because the current facts already show account-linked health uploads, cloud history, and identifiable crash telemetry. It is also more defensible than claiming proven data sale or universal cross-company access, because those claims require evidence we do not yet have.
+
+For each major finding, record three lanes:
+
+| Lane | Purpose |
+|---|---|
+| Facts | What code, live traffic, policy text, app-store metadata, or official records directly prove. |
+| Suspicion / risk interpretation | Why the fact pattern is concerning from a consumer and privacy perspective. |
+| Benign interpretation | What the company might reasonably say in response, such as normal app functionality, support operations, anonymized analytics, or hosting-provider custody. |
+
+The final article should be able to say: we looked for both misconduct and benign explanations, and the remaining concern is based on specific unresolved gaps rather than vibes.
+
 ## Evidence Tiers
 
 | Tier | Source type | How to use it |
@@ -149,4 +167,3 @@ Record search strings even when no credible hit is found. "No credible public br
 | No public breach found | "No credible public breach record was found in this pass..." |
 | Vendor/infrastructure only | "Infrastructure-level involvement only; no evidence of independent data use..." |
 | App-store label mismatch not fully proven | "Potential mismatch requiring platform-specific verification..." |
-

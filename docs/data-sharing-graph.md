@@ -24,7 +24,7 @@ flowchart LR
   RelatedApps -- "includes reviewed apps" --> Equate
   Belter["Shenzhen Belter"] -- "manufactures_hardware: FCC applicant" --> Scale
   Chipsea["Chipsea"] -- "provides_algorithm: native BIA library" --> App
-  Daxin -- "hosted_on: current DNS/IP observation" --> Alibaba["Alibaba Cloud / AS45102"]
+  Daxin -- "hosted_on: current DNS/IP observation" --> Alibaba["Alibaba infrastructure"]
   Fosun["Fosun Pharma"] -- "investor_in: 11% stake announced in 2011" --> Belter
   Retailers["Retailers/resellers"] -- "retail_seller" --> Scale
 ```
@@ -58,7 +58,7 @@ flowchart LR
 | Shenzhen Belter | FCC applicant/manufacturer for EF919B4 | High | FCC filing. |
 | Chipsea | Native BIA algorithm provider | High | App includes Chipsea native library and calls it locally. |
 | Fosun Pharma | Investor/associate relationship with Shenzhen Belter | Medium-high | Public Fosun announcement says 11% stake; no data-flow evidence. |
-| Alibaba Cloud / AS45102 | Current hosting/network for resolved backend IP | Medium | DNS/IP observation can change. Infrastructure role only. |
+| Alibaba infrastructure | Current hosting/network for resolved backend IPs | Medium | DNS/IP observation can change. `tj`, `sealy`, `test`, and `public` Daxin hosts currently resolve to one Alibaba US IP; `common` resolves to an Alibaba China IP. Infrastructure role only. |
 
 ## Plausible But Not Proven Relationships
 
@@ -69,6 +69,7 @@ flowchart LR
 | Bugly crash records include some scale/request data during errors | App posts caught HTTP/JSON exceptions and attaches user identifiers. Exceptions around upload/parsing may include request/response context. | Captured Bugly payload or app path proving measurement fields are placed in exception text. |
 | All Bytech related apps use the same backend stack | Two reviewed related Android health apps use Daxin backend domains, but that does not prove every Bytech app does. | APK/code review and runtime testing of each related app. |
 | Bwell, Sealy, and Equate share one database | The apps use Daxin domains and similar account/history/upload patterns. | Server-side evidence, account cross-access, contracts, admin endpoints, or direct disclosure. |
+| Bwell, Sealy, and Equate share one Daxin infrastructure footprint | `tj`, `sealy`, `test`, and `public` Daxin hosts currently resolve to the same IP and present the same nginx version on checked hosts. | This is already supported as a current DNS/HTTP observation, but it should be rechecked before publication. It still does not prove one database. |
 | Belter receives app records | Belter is OEM/FCC applicant and may provide SDK/protocol code. | Backend domain, policy, contract, or network evidence tying upload to Belter. |
 | Chipsea receives runtime measurements | Chipsea provides local native library and markets app/cloud solutions. | Network evidence to Chipsea domain or policy saying Chipsea processes app data. |
 
@@ -84,7 +85,7 @@ flowchart LR
 | Tencent Bugly | Telemetry SDK | https://bugly.tds.tencent.com/ | Proven telemetry recipient. |
 | Google / Android Health Connect | Optional platform health store | https://developer.android.com/health-and-fitness/health-connect | Optional user-permission health data write. |
 | Apple / HealthKit | Optional platform health store | https://developer.apple.com/documentation/healthkit | iOS optional health sharing per App Store description. |
-| Alibaba Cloud / AS45102 | Infrastructure | https://www.alibabacloud.com/ | Current backend IP infrastructure observation. |
+| Alibaba infrastructure | Infrastructure | https://www.alibabacloud.com/ | Current backend IP infrastructure observation. No independent use of health data proven. |
 | Fosun Pharma | Investor | https://www.fosunpharma.com/ | Investor/associate context for Belter; no data role proven. |
 | Retailers/resellers | Sales channel | Varies | Product sale only; no measurement data path observed. |
 | Related Bytech apps | Adjacent app ecosystem | Bytech app-store listings | Sealy and Equate Android apps prove repeated Daxin backend use; no shared database proven. |

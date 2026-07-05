@@ -26,7 +26,7 @@ What remains unknown: the private contractual and data-processing relationship b
 | Body-composition algorithm/chip ecosystem | Chipsea Technologies | The Android app includes a Chipsea native BIA library; Chipsea publicly markets smart scale/body-fat scale SOC, BLE, app, cloud, and BIA algorithm solutions. |
 | Official Android app | Bwell Health / `com.ebelter.bwell` | App reads BLE packets, calculates body values locally, queues final records, and uploads to Daxin backend. |
 | Backend API | `tj.daxinhealth.com` | Hardcoded endpoint receives scale upload JSON. Domain belongs to the Daxin Health domain family. |
-| Current backend hosting observation | Alibaba (US) Technology Co., Ltd. / AS45102 | DNS currently resolves `tj.daxinhealth.com` to `47.88.15.99`; ipinfo reports that IP under Alibaba (US) Technology. This is hosting/infrastructure evidence, not proof of data use by Alibaba. |
+| Current backend hosting observation | Alibaba infrastructure | DNS currently resolves `tj.daxinhealth.com`, `sealy.daxinhealth.com`, `test.daxinhealth.com`, and `public.daxinhealth.com` to `47.88.15.99`; ipinfo reports that IP under `AS45102 Alibaba (US) Technology Co., Ltd.`. `common.daxinhealth.com` resolves to `8.134.36.208`, reported under Alibaba China infrastructure. This is hosting/infrastructure evidence, not proof of data use by Alibaba. |
 | Crash telemetry | Tencent Bugly | App initializes Tencent Bugly with app id `e81323d3e5` and sets user identifiers after login. |
 | Android optional health sharing | Google / Android Health Connect | App can write scale values to Health Connect when user enables it. Health Connect is permission controlled and separate from the vendor backend upload. |
 | iOS optional health sharing | Apple Health / HealthKit | App Store description for the iOS app says it can share health data to Apple Health. This is iOS-side ecosystem evidence, not directly from the Android APK. |
@@ -37,7 +37,7 @@ What remains unknown: the private contractual and data-processing relationship b
 
 | Entity | Website(s) | Role in this ecosystem | Parent / ownership notes | Data involvement assessment |
 |---|---|---|---|---|
-| Bytech Intl / BYTECH NY, INC. | https://www.bytechintl.com/ , https://bwellmonitors.com/ | BWell brand owner/app publisher context for the reviewed app; seller/developer name on app stores. | Appears to be privately held Bytech NY Inc.; no parent company confirmed from public sources reviewed. | Likely consumer-facing brand and support owner. Whether Bytech directly receives uploaded records is not proven by endpoint ownership; the app backend points to Daxin. |
+| Bytech Intl / BYTECH NY, INC. | https://www.bytechintl.com/ , https://bwellmonitors.com/ | BWell brand owner/app publisher context for the reviewed app; seller/developer name on app stores. | Appears to be privately held Bytech NY Inc.; no parent company confirmed from public sources reviewed. Public app-store, support, and FCC records repeatedly tie Bytech NY Inc. to the Brooklyn address `2585 West 13th Street`, phone `718.449.3700`, and FCC FRN `0025388125` for other Bytech radio products. | Likely consumer-facing brand and support owner. Whether Bytech directly receives uploaded records is not proven by endpoint ownership; the app backend points to Daxin. |
 | BWell brand | https://www.bytechintl.com/bwell , https://bwellmonitors.com/ | Retail health-monitor brand used for the scale/app. | Brand under Bytech. | Brand identity; not a separate proven data processor. |
 | Shenzhen Belter Health Measurement and Analysis Technology Co., Ltd. | Public pages cite `www.belter.com.cn`, `www.belterhealth.com`, and historical `www.belterscales.com` | FCC applicant/manufacturer/OEM for EF919B4; related Belter patents; prior FDA/FCC filings for health devices. | Fosun Pharma announced an RMB44.76M investment for an 11% equity stake in Shenzhen Belter in 2011. Fosun described Shenzhen Belter as an associate after 2012, not a wholly owned subsidiary. | Proven hardware applicant/manufacturer. No direct proof from the reviewed app that scale records are uploaded to Belter-controlled servers. |
 | Fosun Pharma | https://www.fosunpharma.com/ | Investor/associate relationship with Shenzhen Belter, based on public 2011 investment announcement. | Public company under Fosun ecosystem; reviewed evidence says 11% stake in Shenzhen Belter. | No evidence Fosun receives app or scale data. Included only as ownership/investor context. |
@@ -47,7 +47,7 @@ What remains unknown: the private contractual and data-processing relationship b
 | Tencent Bugly / Tencent | https://bugly.tds.tencent.com/ , https://www.tencent.com/ | Crash reporting and app telemetry SDK. | Bugly is a Tencent service. | App initializes Bugly and sets user id/email/mobile/nickname after login; HTTP/JSON exceptions can be posted to Bugly. Bugly is a proven third-party telemetry recipient. |
 | Google / Android Health Connect / Google Play | https://developer.android.com/health-and-fitness/health-connect , https://play.google.com/ | App distribution; optional Health Connect integration on Android. | Google LLC / Alphabet Inc. | Google Play distributes app metadata/download. Health Connect can receive weight/body-fat/BMR/bone values only if user enables permissions. Health Connect is separate from vendor backend upload. |
 | Apple / App Store / Apple HealthKit | https://developer.apple.com/documentation/healthkit , https://www.apple.com/legal/privacy/data/en/health-app/ | iOS app distribution and optional Apple Health sharing. | Apple Inc. | iOS listing says the app can share data to Apple Health. This does not prove Apple receives Android app data. Apple Health sharing is user-permission based. |
-| Alibaba Cloud / Alibaba (US) Technology Co., Ltd. | https://www.alibabacloud.com/ | Current observed hosting/network for backend IP. | Alibaba Cloud is part of Alibaba Group; ipinfo reports `47.88.15.99` as `AS45102 Alibaba (US) Technology Co., Ltd.` | Infrastructure-level involvement only. Hosting provider may carry/store traffic as part of cloud service, but app evidence does not prove Alibaba uses health data for its own purposes. |
+| Alibaba Cloud / Alibaba infrastructure | https://www.alibabacloud.com/ | Current observed hosting/network for Daxin backend IPs. | Alibaba Cloud is part of Alibaba Group; ipinfo reports `47.88.15.99` as `AS45102 Alibaba (US) Technology Co., Ltd.` and `8.134.36.208` as `AS37963 Hangzhou Alibaba Advertising Co.,Ltd.` | Infrastructure-level involvement only. Hosting provider may carry/store traffic as part of cloud service, but app evidence does not prove Alibaba uses health data for its own purposes. |
 | Retailers and resellers | Walmart, eBay, Security Depot and others | Product sales channels. | Varies. | No evidence they receive app/backend measurement records. |
 
 ## Backend Operator Notes: Daxin
@@ -73,8 +73,24 @@ Current network observation:
 | Hostname | Current resolved IP | Current IP owner observation |
 |---|---|---|
 | `tj.daxinhealth.com` | `47.88.15.99` | ipinfo reports `AS45102 Alibaba (US) Technology Co., Ltd.`, Los Angeles, California, US. |
+| `sealy.daxinhealth.com` | `47.88.15.99` | Same IP as BWell Android backend host. |
+| `test.daxinhealth.com` | `47.88.15.99` | Same IP as BWell Android backend host. |
+| `public.daxinhealth.com` | `47.88.15.99` | Same IP as BWell Android backend host. |
+| `common.daxinhealth.com` | `8.134.36.208` | ipinfo reports `AS37963 Hangzhou Alibaba Advertising Co.,Ltd.`, Guangzhou, Guangdong, China. |
 
 This can change over time. DNS/IP hosting should be rechecked before making current claims.
+
+Observed HTTP behavior on July 5, 2026:
+
+| Hostname | HEAD result | Server header |
+|---|---:|---|
+| `tj.daxinhealth.com` | `200` | `nginx/1.20.1` |
+| `sealy.daxinhealth.com` | `404` | `nginx/1.20.1` |
+| `test.daxinhealth.com` | `200` | `nginx/1.20.1` |
+| `public.daxinhealth.com` | `404` | `nginx/1.20.1` |
+| `common.daxinhealth.com` | timed out on this check | Not observed |
+
+This strengthens the shared Daxin-platform/infrastructure conclusion across BWell, Sealy, and Equate-related endpoints. It does not prove that those apps share one database, one tenant, or one administrator interface.
 
 ## App Publisher / Brand Notes: Bytech And BWell
 
@@ -93,6 +109,8 @@ Fax: 718.449.2488
 Data role assessment:
 
 - Bytech/BWell is the consumer-facing brand and app publisher.
+- Bytech also appears as publisher/developer for adjacent health/device apps such as Sealy Smart Scale and Equate Monitors. The Sealy Smart Scale Google Play listing identifies Bytech NY, Inc. with the same Brooklyn address and lists other Bytech apps including Bwell health and Equate Monitors.
+- Bytech appears in FCC records for other radio products under FRN `0025388125`, which supports that it is an active device importer/app publisher ecosystem rather than a one-off app listing.
 - The reviewed Android app's health-record backend does not use a Bytech domain; it uses Daxin.
 - Therefore, the evidence supports Bytech as the app/brand owner but does not prove Bytech directly operates the measurement database.
 
@@ -243,3 +261,9 @@ Unknown:
 | Apple Health app privacy | https://www.apple.com/legal/privacy/data/en/health-app/ |
 | Fosun Pharma Belter investment announcement | https://www.fosunpharma.com/en/content/details37_11238.html |
 | FCC report page for EF919B4 | https://fcc.report/FCC-ID/2AAEEEF919B4 |
+| Bytech support page | https://www.bytechintl.com/support |
+| Sealy Smart Scale Google Play listing | https://play.google.com/store/apps/details?id=com.daxin.sealyscale |
+| Bytech FCC FRN example | https://fcc.report/FCC-ID/2AHN6-PGMC200 |
+| Bytech FCC attestation example | https://fcc.report/FCC-ID/2AHN6-AUBO105/7586685.pdf |
+| ipinfo `47.88.15.99` | https://ipinfo.io/47.88.15.99 |
+| ipinfo `8.134.36.208` | https://ipinfo.io/8.134.36.208 |

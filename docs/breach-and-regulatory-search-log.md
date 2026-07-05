@@ -30,12 +30,12 @@ Weak sources can create leads but should not be used as final proof of breaches 
 
 | Entity | Search status | Findings so far | Next action |
 |---|---|---|---|
-| Bytech / BWell | Initial web pass only | No credible public data breach found. Google Play says Bwell health has `No data collected`; Apple listing says Bwell Health has `Data Not Collected`. Search results also show California Proposition 65 notices involving Bytech products, but those are product chemical-exposure notices, not privacy incidents. | Check app-store privacy policy URL, state AG portals, FTC, court records, BBB/consumer complaint sources only for leads. |
-| Guangzhou Daxin Health Technology | Initial web pass only | No credible public data breach found. Daxin privacy page includes intra-company/affiliate sharing language. Search results show FDA 510(k) device records and Daxin app listings, which are regulatory/ecosystem context rather than privacy incidents. | Search Chinese-language policy/regulator sources; check app-store privacy labels for Daxin apps. |
+| Bytech / BWell | Expanded web pass | No credible public data breach found in this pass. Google Play says Bwell health has `No data collected`; Apple listing says Bwell Health has `Data Not Collected`. Search results also show California Proposition 65 notices involving Bytech products, but those are product chemical-exposure notices, not privacy incidents. BBB results show consumer-service complaints for Bytech products, useful as reputation context only, not privacy evidence. | Continue official state AG/FTC/court searches; keep BBB/app-review material separate from hard privacy evidence. |
+| Guangzhou Daxin Health Technology | Expanded web pass | No credible public data breach found in English and initial Chinese search passes. Daxin privacy page includes intra-company/affiliate sharing language. Search results show FDA 510(k) device records, establishment/listing records, and Daxin app listings, which are regulatory/ecosystem context rather than privacy incidents. | Search Chinese regulator/court sources more deeply; check whether any official app-security/privacy inspection databases mention Daxin apps. |
 | Shenzhen Belter | Initial web pass only | No credible public data breach found. Public FDA/FCC/product records and market/investor mentions exist. | Search regulator/court sources; avoid treating product filings as privacy issues. |
 | Chipsea | Initial web pass only | No credible public data breach found in English quick pass. Public company/stock/solution information found. | Search vulnerability/security news and filings; focus on SDK/cloud/app solution privacy only if data flow appears. |
 | Tencent Bugly | Initial web pass only | Proven app telemetry recipient. Official Bugly docs describe crash/operation statistics; SDK privacy review needed. Public developer complaints exist but need primary-source validation. | Review Bugly SDK privacy statement and Google Play SDK Index. Search enforcement/regulator sources. |
-| Alibaba Cloud | Infrastructure observation only | Backend IP currently maps to Alibaba (US) Technology / AS45102. No app-specific breach issue found. | Treat as infrastructure. Search only for Daxin-specific hosting disclosures or public incidents impacting this IP/service. |
+| Alibaba Cloud | Infrastructure observation only | BWell/Sealy/Equate-related Daxin hosts currently map to Alibaba infrastructure. No app-specific breach issue found. | Treat as infrastructure. Search only for Daxin-specific hosting disclosures or public incidents impacting this service. |
 | Google Health Connect | Platform docs reviewed | Optional permission-controlled health-store path. | Compare Bwell app permissions/data safety disclosures. |
 | Apple HealthKit | Platform docs reviewed | Optional iOS health-store path. Apple listing privacy declaration needs verification. | Compare iOS app declaration with iOS behavior if app is obtained. |
 
@@ -52,6 +52,8 @@ Used or planned:
 "Bwell Health" "privacy policy"
 "Bwell Health" "data collected"
 "Bytech" site:oag.ca.gov breach
+"Bytech NY Inc" site:ftc.gov privacy
+"Bytech NY Inc" site:courtlistener.com privacy
 "BYTECH NY" lawsuit privacy
 ```
 
@@ -60,7 +62,10 @@ Current notes:
 - Google Play lists `Bwell health` under `Bytech Intl`.
 - Apple lists `Bwell Health` under `BYTECH NY, INC.` and says `Data Not Collected`.
 - Bytech publishes multiple related apps/brands, including BWell, Sealy, Brookstone, and Equate apps.
+- Sealy Smart Scale's Google Play listing identifies Bytech NY, Inc. at `2585 W 13TH St Brooklyn, NY 11223-5812` and lists Bwell health and Equate Monitors under "More by Bytech Intl".
+- FCC records for other Bytech radio products identify Bytech NY Inc. with FRN `0025388125` and the same Brooklyn address. This confirms Bytech as an active electronics/FCC ecosystem participant, but does not by itself involve the BWell scale.
 - Search results found California Proposition 65 notices involving Bytech NY, Inc. products. Those are product chemical-exposure/regulatory notices, not privacy or data-breach incidents.
+- BBB results show consumer complaints/reviews about Bytech product/customer-service issues. These are reputation leads only; they are not proof of privacy misconduct.
 - BWell's JavaScript-rendered privacy page has extractable source text saying the BWell Health app may collect account, device, profile, and measurement-result data; it also says measurement data is stored on the company server for history queries and claims BWell does not sell data.
 
 ### Daxin
@@ -88,6 +93,7 @@ Current notes:
 - Daxin app listings identify Guangzhou Daxin Health Technology Co., Ltd. as developer of `ehealth scale` and `ehealth life`.
 - Daxin's own app-store labels are more explicit than BWell's: `ehealth scale` Apple App Store discloses linked health/fitness data, and `ehealth life` Google Play says personal info, health and fitness, and photos/videos may be collected.
 - Search results found an FDA 510(k) clearance letter for Guangzhou Daxin Health Technology Co., Ltd. This is medical-device regulatory context, not a data-practice incident.
+- Initial Chinese search for Daxin plus data-leak/penalty terms found Daxin privacy/product pages and unrelated healthcare data-leak articles, but no credible Daxin-specific data breach or privacy penalty in that pass.
 - Daxin's `ehealth life` app listing is a follow-up target for policy, backend, and privacy-label comparison.
 
 ### Shenzhen Belter
@@ -165,8 +171,11 @@ Used or planned:
 
 Current notes:
 
-- `tj.daxinhealth.com` currently resolves to `47.88.15.99`.
-- ipinfo reports the IP as `AS45102 Alibaba (US) Technology Co., Ltd.`
+- `tj.daxinhealth.com`, `sealy.daxinhealth.com`, `test.daxinhealth.com`, and `public.daxinhealth.com` currently resolve to `47.88.15.99`.
+- ipinfo reports `47.88.15.99` as `AS45102 Alibaba (US) Technology Co., Ltd.` in Los Angeles, California, US.
+- `common.daxinhealth.com` currently resolves to `8.134.36.208`.
+- ipinfo reports `8.134.36.208` as `AS37963 Hangzhou Alibaba Advertising Co.,Ltd.` in Guangzhou, Guangdong, China.
+- On July 5, 2026, HEAD checks returned `nginx/1.20.1` for `tj`, `sealy`, `test`, and `public` Daxin hosts, with `200` on `tj`/`test` and `404` on `sealy`/`public`. `common` timed out on that check.
 - This is infrastructure evidence only.
 
 ## Initial Source Links
@@ -176,6 +185,7 @@ Current notes:
 | Bwell health Google Play listing | https://play.google.com/store/apps/details?id=com.ebelter.bwell | App publisher, downloads, description, support contact, Data Safety label. |
 | Bwell Health Apple App Store listing | https://apps.apple.com/us/app/bwell-health/id1566290744 | iOS developer/seller, version history, privacy declaration, policy link. |
 | Bytech site | https://www.bytechintl.com/ | Brand/company context. |
+| Bytech support page | https://www.bytechintl.com/support | Official address/phone/fax context. |
 | Bytech Smart Home Privacy Policy | https://www.bytechintl.com/bytech-smart-home | Google Play-linked privacy policy and broad collection/sale/share language. |
 | BWell site | https://bwellmonitors.com/ | Brand/support context. |
 | BWell privacy page | https://bwellmonitors.com/privacy-policy | Apple-linked privacy policy target; static capture needs JavaScript/browser follow-up. |
@@ -192,6 +202,13 @@ Current notes:
 | Apple HealthKit docs | https://developer.apple.com/documentation/healthkit | Optional health-store behavior. |
 | Fosun Pharma Belter investment announcement | https://www.fosunpharma.com/en/content/details37_11238.html | Belter investor relationship. |
 | FCC EF919B4 page | https://fcc.report/FCC-ID/2AAEEEF919B4 | Hardware applicant/manufacturer. |
+| Sealy Smart Scale Google Play listing | https://play.google.com/store/apps/details?id=com.daxin.sealyscale | Related Bytech app and Bytech NY address context. |
+| Bytech FCC FRN example | https://fcc.report/FCC-ID/2AHN6-PGMC200 | Bytech FRN/address context for other radio products. |
+| Bytech FCC attestation example | https://fcc.report/FCC-ID/2AHN6-AUBO105/7586685.pdf | Bytech FRN/address/contact context for other radio products. |
+| FDA 510(k) K243082 | https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K243082 | Daxin device-regulatory context, not privacy incident. |
+| BBB Bytech Intl profile | https://www.bbb.org/us/ny/brooklyn/profile/electronic-equipment-dealers/bytech-intl-0121-93391 | Consumer-service reputation lead only, not privacy proof. |
+| ipinfo `47.88.15.99` | https://ipinfo.io/47.88.15.99 | Current backend IP ownership observation. |
+| ipinfo `8.134.36.208` | https://ipinfo.io/8.134.36.208 | Current backend IP ownership observation. |
 
 ## Open Research Risks
 
