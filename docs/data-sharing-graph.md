@@ -11,6 +11,8 @@ flowchart LR
   App -- "crash_telemetry_to: crashes + account identifiers" --> Bugly["Tencent Bugly"]
   App -- "optional_sync_to: user-enabled health values" --> HealthConnect["Google / Android Health Connect"]
   IOS["Bwell Health iOS app"] -- "optional_sync_to per App Store description" --> AppleHealth["Apple Health / HealthKit"]
+  AppStoreLabels["App-store privacy declarations"] -. "declares: no data collected" .-> App
+  AppStoreLabels -. "declares: Data Not Collected" .-> IOS
   Bytech["Bytech / BWell"] -- "publishes_app / brands_product" --> App
   Bytech -- "publishes_app" --> IOS
   Belter["Shenzhen Belter"] -- "manufactures_hardware: FCC applicant" --> Scale
@@ -28,6 +30,14 @@ flowchart LR
 | Bwell Health Android app | `tj.daxinhealth.com` | `uploads_to` | Final body-composition records, user id, test date | High | Hardcoded backend and upload method. |
 | Bwell Health Android app | Tencent Bugly | `crash_telemetry_to` | Crash/exception telemetry plus app-set user identifiers | High | App initializes Bugly and sets user id/email/mobile/nickname after login. |
 | Bwell Health Android app | Android Health Connect | `optional_sync_to` | Weight, body fat, BMR, bone mass/mineral value, timestamp | High | App code path exists and is user/permission controlled. |
+
+## App-Store Privacy Declarations
+
+| Platform | Declaration | Evidence level | Current interpretation |
+|---|---|---:|---|
+| Google Play | `No data collected`; `No data shared with third parties` for `com.ebelter.bwell` | High | Conflicts with Android code evidence showing Daxin uploads and identifiable Bugly telemetry. |
+| Apple App Store | `Data Not Collected` for `com.bytechny.B-WELL` | High | Needs iOS runtime verification before claiming contradiction. |
+| iOS privacy manifest | `NSPrivacyCollectedDataTypes: []` in the official Apple-sourced package | High | Matches App Store label, but static package resources still show account/upload/server flows. |
 
 ## Proven Non-Data Or Supply-Chain Relationships
 
@@ -77,6 +87,7 @@ The app does not keep sensitive data in one privacy box:
 | Phone local storage | Saved credentials, local queues, profile state, history records | Local extraction risk. |
 | Health Connect / Apple Health | Optional selected health values | User-permission controlled, but creates another copy/path. |
 | Infrastructure provider | Hosting/network/log metadata, depending Daxin deployment | Infrastructure custody, not independent use proven. |
+| App-store labels | Developer-supplied data-practice declarations | The current declarations understate or conflict with the Android technical evidence. |
 
 ## Research Tasks
 
@@ -91,4 +102,3 @@ The app does not keep sensitive data in one privacy box:
 | 2 | Search credible breach/regulatory sources for each high-priority company. |
 | 3 | Review Belter and Chipsea only for data-flow evidence, SDK terms, and regulatory reputation. |
 | 3 | Track hosting/IP changes for `tj.daxinhealth.com`. |
-

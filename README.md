@@ -2,6 +2,15 @@
 
 Distribution report, compiled from Android app reverse engineering, live BLE protocol testing, FCC exhibits, manual material, related Belter patent artifacts, and native body-composition analysis.
 
+## Focused Notes
+
+- [App-store privacy labels versus technical evidence](docs/app-store-privacy-labels.md)
+- [App cloud and privacy analysis](docs/app-cloud-privacy.md)
+- [Data sharing graph](docs/data-sharing-graph.md)
+- [Privacy policy and reputation review](docs/privacy-policy-and-reputation-review.md)
+- [BLE scale protocol](docs/ble-scale-protocol.md)
+- [Chipsea body-composition analysis](docs/chipsea-body-composition.md)
+
 ## Executive Summary
 
 The BWell BW-HW-SS-100-WT smart scale is the same hardware family as the FCC `EF919B4` / `EF-919B4` body composition scale, FCC ID `2AAEEEF919B4`. It is a Bluetooth Low Energy body-composition scale powered by three AAA batteries. The regulatory exhibits identify the radio as Bluetooth 4.0 GFSK over 2402-2480 MHz, with 40 channels, a PCB antenna, and low transmit power.

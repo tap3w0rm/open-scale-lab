@@ -159,10 +159,12 @@ Current notes:
 
 | Source | URL | Use |
 |---|---|---|
-| Bwell health Google Play listing | https://play.google.com/store/apps/details?id=com.ebelter.bwell | App publisher, downloads, description, data safety target. |
-| Bwell Health Apple App Store listing | https://apps.apple.com/us/app/bwell-health/id1566290744 | iOS developer/seller and privacy declaration target. |
+| Bwell health Google Play listing | https://play.google.com/store/apps/details?id=com.ebelter.bwell | App publisher, downloads, description, support contact, Data Safety label. |
+| Bwell Health Apple App Store listing | https://apps.apple.com/us/app/bwell-health/id1566290744 | iOS developer/seller, version history, privacy declaration, policy link. |
 | Bytech site | https://www.bytechintl.com/ | Brand/company context. |
+| Bytech Smart Home Privacy Policy | https://www.bytechintl.com/bytech-smart-home | Google Play-linked privacy policy and broad collection/sale/share language. |
 | BWell site | https://bwellmonitors.com/ | Brand/support context. |
+| BWell privacy page | https://bwellmonitors.com/privacy-policy | Apple-linked privacy policy target; static capture needs JavaScript/browser follow-up. |
 | Daxin English site | https://en.daxinhealth.com/ | Backend-domain company context. |
 | Daxin privacy page | https://en.daxinhealth.com/html/2/yinsibaohu/index.html | Policy language. |
 | Daxin about page | https://en.daxinhealth.com/html/2/guanyuwomen/index.html | Company/app/product/affiliate context. |
@@ -183,4 +185,3 @@ Current notes:
 | App-store privacy labels differ by country/version | Capture country, date, app version, and URL. |
 | DNS/IP hosting changes | Record lookup date and avoid timeless claims. |
 | Vendor graph gets speculative | Use edge labels and confidence levels. |
-

@@ -18,8 +18,9 @@ Current strongest concerns:
 | Crash telemetry is identifiable | Proven by app setting Bugly user id/email/mobile/nickname. |
 | Bugly may receive health/request context on error paths | Plausible; not yet proven for routine measurement payloads. |
 | Daxin policy language allows intra-company/affiliate sharing | Found in Daxin website privacy text; product-specific scope unclear. |
-| Apple App Store says iOS Bwell Health has "Data Not Collected" | Found in Apple listing; requires iOS-specific verification before claiming contradiction. |
-| Bytech-specific Bwell Health privacy policy is hard to pin down | Needs follow-up. |
+| Google Play says Android Bwell health has "No data collected" | Found in Google Play listing; conflicts with Android upload evidence. |
+| Apple App Store says iOS Bwell Health has "Data Not Collected" | Found in Apple listing; iOS runtime verification still needed before claiming a live iOS contradiction. |
+| Bytech policy linked from Google Play is broad and not BWell-specific | Found in Bytech Smart Home Privacy Policy. |
 | No credible public breach found in first quick pass for Bytech/Daxin/Belter | Absence of evidence only. Needs systematic source log. |
 
 ## Company Reviews
@@ -38,19 +39,27 @@ Known sites:
 - https://www.bytechintl.com/bwell
 - https://bwellmonitors.com/
 - https://bwellmonitors.com/contact-us
+- https://www.bytechintl.com/bytech-smart-home
 
 Current policy findings:
 
 | Item | Finding |
 |---|---|
 | App publisher | Google Play lists `Bwell health` by `Bytech Intl`; Apple lists seller/developer as `BYTECH NY, INC.` |
-| BWell site | BWell/Bytech pages expose privacy-policy links, but a Bwell-Health-specific policy still needs capture and review. |
+| Google Play Data Safety | Google Play currently says `No data shared with third parties` and `No data collected` for `com.ebelter.bwell`, while also saying data is encrypted in transit and users can request deletion. |
+| Google Play policy link | Google Play links to `https://www.bytechintl.com/bytech-smart-home`, a broad Bytech Smart Home Privacy Policy. |
+| Bytech policy date | Bytech Smart Home Privacy Policy says last updated July 09, 2024. |
+| Bytech policy collection | The policy says Bytech may collect names, email addresses, phone numbers, passwords, mobile app Bluetooth access, mobile device data, log/usage data, crash dumps, IP address, geolocation, and app-feature activity. |
+| Bytech policy sensitive data claim | The policy says Bytech does not process sensitive personal information. This needs comparison against the health/body-composition nature of Bwell Health data. |
+| Bytech policy sale/share claim | The policy says it has not disclosed, sold, or shared personal information to third parties for a business or commercial purpose in the preceding 12 months and will not sell/share in the future. It also separately says targeted advertising/online tracking may be deemed sale/sharing under some US state laws. |
+| BWell site | Apple links to `https://bwellmonitors.com/privacy-policy`, but the static capture renders mostly as a JavaScript shell and still needs browser/screenshot capture. |
 | Apple App Privacy | Apple listing says `Data Not Collected` for `Bwell Health` by `BYTECH NY, INC.` |
-| Google Play privacy/data safety | Needs a focused capture of the Bwell Health listing's Data Safety section. |
 
 Potential mismatch:
 
-The Android app uploads account-linked health records to `tj.daxinhealth.com`. The Apple listing's `Data Not Collected` declaration applies to the iOS app declaration and is not automatically proof about Android. It is still a high-priority verification target because the iOS app description also says the app works with B.Well devices and can share data to Apple Health.
+The Android app uploads account-linked health records to `tj.daxinhealth.com`, but the Google Play listing currently says `No data collected` and `No data shared with third parties`. That is the clearest current app-store privacy-label conflict.
+
+The Apple listing's `Data Not Collected` declaration applies to the iOS app declaration and is not automatically proof about Android. The official iOS package also declares no collected data in its privacy manifest, while visible resources show login, registration, upload, server, offline-sync, Bluetooth, and Apple Health flows. Runtime iOS network testing is required before saying the iOS declaration is false.
 
 Reputation/breach status:
 
@@ -64,7 +73,8 @@ Open questions:
 
 - Which legal entity is the data controller for Bwell Health accounts?
 - Does Bytech receive or access records stored by Daxin?
-- What is the Bwell Health app's privacy policy URL, effective date, and data-retention language?
+- Does the broad Bytech Smart Home policy apply to Bwell Health, or is there a separate Bwell Health policy?
+- Why does Google Play say no data is collected when the Android code uploads body-composition records?
 - Does Bytech sell/share consumer health data under any US state privacy law definitions?
 - Can users delete cloud records and accounts?
 
@@ -262,7 +272,10 @@ Findings:
 |---|---|
 | App Store description | iOS app says it can share health data to Apple Health. |
 | App privacy label | Apple listing says `Data Not Collected` for Bwell Health. |
-| Evidence boundary | This is iOS listing evidence, not Android APK evidence. |
+| Official IPA | Apple-sourced IPA identifies bundle `com.bytechny.B-WELL`, version `1.0.19`, build `2`. |
+| iOS privacy manifest | The official package declares `NSPrivacyCollectedDataTypes: []`, no tracking, and no tracking domains. |
+| iOS app capabilities | The package declares Bluetooth, HealthKit, camera, photo library, and `NSAllowsArbitraryLoads: true`. |
+| iOS evidence boundary | The main executable is App Store encrypted, so runtime traffic capture is needed for backend claims. |
 
 Open questions:
 
@@ -297,7 +310,7 @@ Open questions:
 | Claim/source | Technical fact to compare |
 |---|---|
 | Apple `Data Not Collected` for Bwell Health | Does the iOS app actually avoid collection, or does it use the Daxin backend like Android? |
-| Google Play Data Safety for Bwell Health | Does it disclose health data, account identifiers, device info, crash diagnostics, and sharing? |
+| Google Play `No data collected` for Bwell health | Android code uploads health/body-composition records to Daxin and sends identifiable crash telemetry to Bugly. |
 | Bytech/BWell privacy policy | Does it disclose Daxin backend, Tencent Bugly, Health Connect/Apple Health, retention, deletion, affiliates? |
 | Daxin privacy policy | Does it cover the BWell app specifically and sensitive health/body data? |
 | Tencent Bugly SDK privacy | Does it disclose identifiers and crash report contents consistent with app usage? |
@@ -316,12 +329,11 @@ Open questions:
 
 ## Next Research Actions
 
-1. Capture Google Play Data Safety details for `com.ebelter.bwell`.
-2. Capture Apple App Privacy details for `id1566290744`.
-3. Locate exact Bytech/BWell privacy policy URL linked by Google Play/App Store.
+1. Capture dated screenshots/PDFs of Google Play Data Safety and Apple App Privacy labels.
+2. Capture the JavaScript-rendered BWell privacy page linked from the Apple listing.
+3. Ask Bytech whether the Bytech Smart Home policy is intended to govern Bwell Health.
 4. Capture Daxin privacy/legal pages in English and Chinese.
 5. Search official breach/regulator portals for Bytech, Daxin, Belter, Chipsea, Tencent Bugly, and Alibaba Cloud.
 6. Review Tencent Bugly SDK privacy statement and Google Play SDK Index entry for `com.tencent.bugly:crashreport`.
 7. Review Bytech's related apps for package names, backend domains, and privacy labels.
 8. Start an evidence table for "sell/share" language by company.
-
