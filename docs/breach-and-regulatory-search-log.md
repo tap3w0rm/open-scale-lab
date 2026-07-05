@@ -30,10 +30,10 @@ Weak sources can create leads but should not be used as final proof of breaches 
 
 | Entity | Search status | Findings so far | Next action |
 |---|---|---|---|
-| Bytech / BWell | Initial web pass only | No credible public data breach found. Apple listing says Bwell Health has `Data Not Collected`, which requires platform-specific verification. | Check app-store privacy policy URL, state AG portals, FTC, court records, BBB/consumer complaint sources only for leads. |
-| Guangzhou Daxin Health Technology | Initial web pass only | No credible public data breach found. Daxin privacy page includes intra-company/affiliate sharing language. | Search Chinese-language policy/regulator sources; check app-store privacy labels for Daxin apps. |
-| Shenzhen Belter | Initial web pass only | No credible public data breach found. Public FDA/FCC/product records exist. | Search regulator/court sources; avoid treating product filings as privacy issues. |
-| Chipsea | Initial web pass only | No credible public data breach found yet. Public company/stock/solution information found. | Search vulnerability/security news and filings; focus on SDK/cloud/app solution privacy only if data flow appears. |
+| Bytech / BWell | Initial web pass only | No credible public data breach found. Google Play says Bwell health has `No data collected`; Apple listing says Bwell Health has `Data Not Collected`. Search results also show California Proposition 65 notices involving Bytech products, but those are product chemical-exposure notices, not privacy incidents. | Check app-store privacy policy URL, state AG portals, FTC, court records, BBB/consumer complaint sources only for leads. |
+| Guangzhou Daxin Health Technology | Initial web pass only | No credible public data breach found. Daxin privacy page includes intra-company/affiliate sharing language. Search results show FDA 510(k) device records and Daxin app listings, which are regulatory/ecosystem context rather than privacy incidents. | Search Chinese-language policy/regulator sources; check app-store privacy labels for Daxin apps. |
+| Shenzhen Belter | Initial web pass only | No credible public data breach found. Public FDA/FCC/product records and market/investor mentions exist. | Search regulator/court sources; avoid treating product filings as privacy issues. |
+| Chipsea | Initial web pass only | No credible public data breach found in English quick pass. Public company/stock/solution information found. | Search vulnerability/security news and filings; focus on SDK/cloud/app solution privacy only if data flow appears. |
 | Tencent Bugly | Initial web pass only | Proven app telemetry recipient. Official Bugly docs describe crash/operation statistics; SDK privacy review needed. Public developer complaints exist but need primary-source validation. | Review Bugly SDK privacy statement and Google Play SDK Index. Search enforcement/regulator sources. |
 | Alibaba Cloud | Infrastructure observation only | Backend IP currently maps to Alibaba (US) Technology / AS45102. No app-specific breach issue found. | Treat as infrastructure. Search only for Daxin-specific hosting disclosures or public incidents impacting this IP/service. |
 | Google Health Connect | Platform docs reviewed | Optional permission-controlled health-store path. | Compare Bwell app permissions/data safety disclosures. |
@@ -60,6 +60,7 @@ Current notes:
 - Google Play lists `Bwell health` under `Bytech Intl`.
 - Apple lists `Bwell Health` under `BYTECH NY, INC.` and says `Data Not Collected`.
 - Bytech publishes multiple related apps/brands, including BWell, Sealy, Brookstone, and Equate apps.
+- Search results found California Proposition 65 notices involving Bytech NY, Inc. products. Those are product chemical-exposure/regulatory notices, not privacy or data-breach incidents.
 
 ### Daxin
 
@@ -81,6 +82,8 @@ Current notes:
 - Daxin privacy language allows use/sharing within company or affiliated enterprises.
 - Daxin pages identify product categories including body-fat scales and model `EF-919B4`.
 - Daxin app listings identify Guangzhou Daxin Health Technology Co., Ltd. as developer of `ehealth scale` and `ehealth life`.
+- Search results found an FDA 510(k) clearance letter for Guangzhou Daxin Health Technology Co., Ltd. This is medical-device regulatory context, not a data-practice incident.
+- Daxin's `ehealth life` app listing is a follow-up target for policy, backend, and privacy-label comparison.
 
 ### Shenzhen Belter
 
@@ -99,6 +102,7 @@ Current notes:
 - FCC applicant for BWell/EF919B4 family.
 - Fosun Pharma announced an 11% investment in 2011.
 - No direct backend data flow found yet.
+- Search results found market/investor documents mentioning Shenzhen Belter, but no credible privacy or breach incident in this pass.
 
 ### Chipsea
 
@@ -118,6 +122,7 @@ Current notes:
 - App uses Chipsea native BIA library locally.
 - Chipsea public materials market smart scale/body-fat scale SOC, BLE, app, cloud, and BIA solution.
 - No runtime network flow to Chipsea observed in reviewed Android path.
+- First English search pass did not find a credible Chipsea data-breach hit. Results were mostly market reports, SEC/HKEX documents, USB vendor listings, and general cybersecurity-risk language.
 
 ### Tencent Bugly
 
