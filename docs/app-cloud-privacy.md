@@ -176,6 +176,19 @@ obtains `HTTPRequestManager::shareManager`, and calls the body-fat upload
 method. Success paths delete rows by offline database id. This supports an
 iOS offline/history upload model in addition to live measurement handling.
 
+The latest decompile pass also clarified the upstream condition around user
+context. Live BLE measurement handling checks for a current user before
+constructing a `BodyFat` result, and history/offline BLE handling checks for an
+offline/current user before constructing an `OfflineBodyFat` result. That means
+the static evidence supports account/profile-linked measurement handling, while
+no-login/no-profile iOS behavior still needs runtime testing.
+
+The retry behavior is now supported by callback references: the live upload
+failure block calls `insertOfflineBodyFat:`, and the offline queue replay
+success block calls `deleteOfflineBodyFatWithDbID:`. In practical terms, failed
+iOS body-fat uploads can be queued locally and later replayed through the same
+Daxin body-fat upload method.
+
 See [iOS decrypted app teardown](ios-decrypted-app-teardown.md) for details.
 
 ## Account And Profile Data

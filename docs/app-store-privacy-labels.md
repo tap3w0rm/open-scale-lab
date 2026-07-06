@@ -260,10 +260,18 @@ The same pass recovered offline queue helpers for `OfflineBodyFat` rows and an
 offline-data checker that uploads queued body-fat records through the same
 body-fat upload method.
 
+A later focused pass clarified two more points. First, live and history/offline
+measurement construction is user-context gated in the recovered pseudocode: the
+app checks for a current/offline user before building `BodyFat` or
+`OfflineBodyFat` objects. Second, retry behavior is visible in callback
+references: the live upload failure block calls `insertOfflineBodyFat:`, while
+offline queue replay success calls `deleteOfflineBodyFatWithDbID:`.
+
 Accurate current position: the iOS app contains static code paths for collecting
 and uploading account-linked health/body-composition data, despite the App Store
 label and privacy manifest indicating no collected data. Runtime network capture
-is still needed for exact payloads and per-workflow triggering.
+is still needed for exact payloads, no-login behavior, and per-workflow
+triggering.
 
 ## Policy Links Point To Different Disclosures
 

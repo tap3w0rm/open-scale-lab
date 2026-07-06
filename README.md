@@ -57,7 +57,7 @@ These are the strongest conclusions from the combined evidence.
 | A clear-history command is not fully proven. | Medium | History ACK and delete-all-user-info commands exist, but decompiled code does not prove which one clears stored measurements. |
 | Local saved password protection is weak. | High | Saved password is reversible DES with hardcoded key material derived from `MD5("Ze")`. |
 | Crash telemetry is tied to account identifiers. | High | Tencent Bugly is initialized and user id/email/mobile/nickname are set after login. |
-| The iOS app also contains Daxin upload code paths despite an Apple `Data Not Collected` label. | High for static code presence; runtime payload capture still pending | Decrypted iOS binary and Ghidra decompile show BLE packet parsing, `uploadBodyfat:isOfflineData:`, `composition/upload`, Daxin URL construction, and AFNetworking POST handoff. |
+| The iOS app also contains Daxin upload code paths despite an Apple `Data Not Collected` label. | High for static code presence; runtime payload capture still pending | Decrypted iOS binary and Ghidra decompile show BLE packet parsing, user-context-gated body-fat result construction, `uploadBodyfat:isOfflineData:`, `composition/upload`, Daxin URL construction, AFNetworking POST handoff, and offline retry queue behavior. |
 
 ## What Data Is Sent To The Company
 

@@ -495,6 +495,44 @@ What still needs dynamic testing:
 - Whether upstream flow suppresses upload under no-account/offline conditions.
 - Exact runtime request bodies under each user path.
 
+## User Context Before Upload
+
+The deeper Ghidra pass clarifies an important upstream condition. The iOS app
+does not appear to create body-fat result objects without a user context.
+
+For live readings, the recovered method:
+
+```text
+ScaleBleManager::BT_CBManager:didReceivedBodyFatResult:fat:resistance:time:unit:heartRate:
+```
+
+checks for a current user before constructing a `BodyFat` result. If no current
+user object is available, the recovered pseudocode exits before building the
+result object. If a current user exists, the app builds the result from scale
+facts such as weight, fat, resistance, time, unit, and heart-rate value plus
+profile context, then dispatches the measurement delegate.
+
+For history/offline readings, the recovered method:
+
+```text
+ScaleBleManager::BT_CBManager:didReceivedHistoryData:fat:resistance:time:unit:heartRate:isSuspectedData:
+```
+
+also requires an offline/current user object before constructing
+`OfflineBodyFat`. If that user context exists, the app builds the offline
+measurement from scale packet values and profile context, sets unit, heart-rate,
+and suspected/offline state, and dispatches the offline-measurement delegate.
+
+This narrows the claim:
+
+- The iOS app contains code paths that build account/profile-linked body
+  composition upload payloads.
+- Static evidence indicates live and offline measurement-object construction is
+  user-context gated.
+- A no-login/no-profile iOS workflow still needs runtime testing.
+- Once a body-fat object reaches `BLEHandler::uploadBodyfat:isOfflineData:`, the
+  Daxin upload method is called in the recovered pseudocode.
+
 ## Local Offline Storage
 
 Static SQL and first-launch database inspection confirmed an `OfflineBodyFat`
@@ -535,6 +573,22 @@ the body-fat upload method on queued records. Other recovered code deletes
 offline rows by database id after success paths. This supports an offline queue
 model: the app is not limited to only sending a live measurement at the moment
 it is taken.
+
+Additional callback-reference evidence strengthens the retry model:
+
+```text
+BLEHandler::uploadBodyfat:isOfflineData:
+  failure block -> insertOfflineBodyFat:
+
+OfflineDataUtility::checkOfflineDataWithUserId:
+  queued OfflineBodyFat row -> requestUploadBodyFat:success:failure:
+  success block -> deleteOfflineBodyFatWithDbID:
+```
+
+In plain terms: if a body-fat upload fails, the app has a local insert path for
+the offline body-fat queue. Later, the offline-data checker can replay queued
+rows through the same Daxin body-fat upload method and delete the queued row
+after a success path.
 
 ## Login, Profile, and Credential Storage
 
