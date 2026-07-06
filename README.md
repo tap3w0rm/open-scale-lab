@@ -14,6 +14,7 @@ Distribution report, compiled from Android app reverse engineering, live BLE pro
 - [iOS app initial teardown](docs/ios-bwell-app-initial-teardown.md)
 - [iOS decrypted app teardown](docs/ios-decrypted-app-teardown.md)
 - [BLE scale protocol](docs/ble-scale-protocol.md)
+- [BLE protocol runbook](docs/protocol-runbook.md)
 - [Chipsea body-composition analysis](docs/chipsea-body-composition.md)
 
 ## Executive Summary
