@@ -23,11 +23,13 @@ only a single BWell scale question.
 | App | Platform | Publisher | Package / App ID | Health/device role | Current label notes |
 |---|---|---|---|---|---|
 | Bwell health | Google Play | Bytech Intl | `com.ebelter.bwell` | B.Well scale, blood pressure, thermometer health app | Data Safety says `No data collected` and `No data shared with third parties`. Android code uploads scale/body records to Daxin. |
-| Bwell Health | Apple App Store | BYTECH NY, INC. | `id1566290744` / `com.bytechny.B-WELL` | B.Well scale, blood pressure, thermometer, finger oximeter | App Privacy says `Data Not Collected`; iOS runtime behavior still needs testing. |
+| Bwell Health | Apple App Store | BYTECH NY, INC. | `id1566290744` / `com.bytechny.B-WELL` | B.Well scale, blood pressure, thermometer, finger oximeter | App Privacy says `Data Not Collected`; decrypted iOS code contains Daxin account/profile/history/upload paths, with runtime payload capture still pending. |
 | Sealy Smart Scale | Google Play | Bytech Intl | `com.daxin.sealyscale` | BLE body-fat scale app | Data Safety says no third-party sharing; may collect `Location` and `Personal info`. Android code uploads scale composition records to Daxin. |
 | Sealy Smart Scale | Apple App Store | BYTECH NY, INC. | `id6670584440` | BLE body-fat scale app | App Privacy says `Identifiers / User ID` may be collected, not linked to identity. |
 | Equate Monitors | Google Play | Bytech Intl | `com.bloodoxygen.bytechintl` | Bluetooth oximeter and thermometer | Data Safety says may share `Location`, but says `No data collected`. Android code uploads oxygen and temperature records to Daxin. |
-| Equate Monitors | Apple App Store | BYTECH NY, INC. | Listed under Bytech developer page | Health/fitness monitor app | Needs app-specific privacy capture. |
+| Equate Monitors | Apple App Store | BYTECH NY, INC. | `id1629862937` | Health/fitness monitor app | App Privacy says `Data Not Collected` in the checked storefront. iOS package not reviewed in this pass. |
+| Sealy Care | Apple App Store | BYTECH NY, INC. | `id1620115770` | Sealy device/control app | App Privacy says `Data Not Collected` in the checked storefront. App-specific code review needed before drawing conclusions. |
+| Sealy Sleep | Apple App Store | BYTECH NY, INC. | `id6450177650` | Sealy sleep/device app | App Privacy says `Data Not Collected` in the checked storefront. App-specific code review needed before drawing conclusions. |
 
 ## Sealy Smart Scale Android APK Findings
 
@@ -247,10 +249,12 @@ The related apps show inconsistent data-safety declarations:
 | App | Platform | Declaration pattern |
 |---|---|---|
 | Bwell health | Google Play | No data collected, despite Android app upload evidence. |
-| Bwell Health | Apple App Store | Data Not Collected, despite package account/upload/server UI flows. |
+| Bwell Health | Apple App Store | Data Not Collected, despite decrypted iOS Daxin upload code paths. |
 | Sealy Smart Scale | Google Play | May collect Location and Personal info. |
 | Sealy Smart Scale | Apple App Store | May collect User ID, not linked to identity. |
 | Equate Monitors | Google Play | May share Location, but says no data collected, despite APK upload paths for oxygen and temperature records. |
+| Equate Monitors | Apple App Store | Data Not Collected; iOS package not reviewed. |
+| Sealy Care / Sealy Sleep | Apple App Store | Data Not Collected; app-specific code review not yet done. |
 
 This pattern makes the labels themselves a research object. Some related apps
 acknowledge identifiers or personal information, while Bwell Health declares no

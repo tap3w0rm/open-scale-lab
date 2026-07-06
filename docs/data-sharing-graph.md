@@ -10,7 +10,9 @@ flowchart LR
   App -- "uploads_to: health/body records" --> Daxin["tj.daxinhealth.com / Daxin backend"]
   App -- "crash_telemetry_to: crashes + account identifiers" --> Bugly["Tencent Bugly"]
   App -- "optional_sync_to: user-enabled health values" --> HealthConnect["Google / Android Health Connect"]
-  IOS["Bwell Health iOS app"] -- "optional_sync_to per App Store description" --> AppleHealth["Apple Health / HealthKit"]
+  IOS["Bwell Health iOS app"] -- "contains upload path: health/body records" --> Daxin
+  IOS -- "optional_sync_to: user-enabled health values" --> AppleHealth["Apple Health / HealthKit"]
+  IOS -- "optional_sync_to: weight/fat if tokens exist" --> Fitbit["Fitbit"]
   AppStoreLabels["App-store privacy declarations"] -. "declares: no data collected" .-> App
   AppStoreLabels -. "declares: Data Not Collected" .-> IOS
   Bytech["Bytech / BWell"] -- "publishes_app / brands_product" --> App
@@ -37,6 +39,9 @@ flowchart LR
 | Bwell Health Android app | `tj.daxinhealth.com` | `uploads_to` | Final body-composition records, user id, test date | High | Hardcoded backend and upload method. |
 | Bwell Health Android app | Tencent Bugly | `crash_telemetry_to` | Crash/exception telemetry plus app-set user identifiers | High | App initializes Bugly and sets user id/email/mobile/nickname after login. |
 | Bwell Health Android app | Android Health Connect | `optional_sync_to` | Weight, body fat, BMR, bone mass/mineral value, timestamp | High | App code path exists and is user/permission controlled. |
+| Bwell Health iOS app | `tj.daxinhealth.com` | `contains_upload_path` | Body-composition records including direct scale facts and derived metrics | High for static/decompile evidence; runtime payload pending | Decrypted iOS binary and Ghidra review show backend URL, `composition/upload`, upload request construction, and BLE upload handler. |
+| Bwell Health iOS app | Apple Health / HealthKit | `optional_sync_to` | Selected measured body data | High for code path; user-permission controlled | App Store description and decrypted iOS code show Apple Health write paths. |
+| Bwell Health iOS app | Fitbit | `optional_sync_to` | Weight and fat | Medium-high | Decrypted iOS code contains Fitbit weight/fat upload routes; appears conditional on stored Fitbit tokens. |
 | Sealy Smart Scale Android app | `sealy.daxinhealth.com` | `uploads_to` | User-linked scale/body-composition records including weight, impedance, BMI, BMR, fat, visceral fat, muscle, bone, protein, moisture, body score, physical age, timestamp | High | Reviewed APK hardcodes Daxin backend and live/offline upload endpoints. |
 | Sealy Smart Scale Android app | Tencent Bugly | `crash_telemetry_to` | Crash/exception telemetry plus app-set user id and email | High | Reviewed APK initializes Bugly and sets user data. |
 | Equate Monitors Android app | `test.daxinhealth.com` | `uploads_to` | User-linked oxygen records and temperature records | High | Reviewed APK hardcodes Daxin backend and upload endpoints. |
@@ -47,8 +52,8 @@ flowchart LR
 | Platform | Declaration | Evidence level | Current interpretation |
 |---|---|---:|---|
 | Google Play | `No data collected`; `No data shared with third parties` for `com.ebelter.bwell` | High | Conflicts with Android code evidence showing Daxin uploads and identifiable Bugly telemetry. |
-| Apple App Store | `Data Not Collected` for `com.bytechny.B-WELL` | High | Needs iOS runtime verification before claiming contradiction. |
-| iOS privacy manifest | `NSPrivacyCollectedDataTypes: []` in the official Apple-sourced package | High | Matches App Store label, but static package resources still show account/upload/server flows. |
+| Apple App Store | `Data Not Collected` for `com.bytechny.B-WELL` | High | Conflicts with decrypted iOS static/decompile evidence showing Daxin upload code paths; runtime capture is still needed for exact payloads and trigger conditions. |
+| iOS privacy manifest | `NSPrivacyCollectedDataTypes: []` in the official Apple-sourced package | High | Matches App Store label, but conflicts with decrypted iOS code paths for account/profile/history/upload. |
 
 ## Proven Non-Data Or Supply-Chain Relationships
 
@@ -84,7 +89,8 @@ flowchart LR
 | Chipsea Technologies (Shenzhen) Corp. | Algorithm/chip provider | https://en.chipsea.com/ | Native body-composition library runs locally. |
 | Tencent Bugly | Telemetry SDK | https://bugly.tds.tencent.com/ | Proven telemetry recipient. |
 | Google / Android Health Connect | Optional platform health store | https://developer.android.com/health-and-fitness/health-connect | Optional user-permission health data write. |
-| Apple / HealthKit | Optional platform health store | https://developer.apple.com/documentation/healthkit | iOS optional health sharing per App Store description. |
+| Apple / HealthKit | Optional platform health store | https://developer.apple.com/documentation/healthkit | iOS optional health sharing per App Store description and decrypted app code. |
+| Fitbit | Optional third-party health sync | https://www.fitbit.com/ | iOS optional weight/fat upload when tokens exist. |
 | Alibaba infrastructure | Infrastructure | https://www.alibabacloud.com/ | Current backend IP infrastructure observation. No independent use of health data proven. |
 | Fosun Pharma | Investor | https://www.fosunpharma.com/ | Investor/associate context for Belter; no data role proven. |
 | Retailers/resellers | Sales channel | Varies | Product sale only; no measurement data path observed. |
@@ -99,7 +105,7 @@ The app does not keep sensitive data in one privacy box:
 | Daxin backend | Health/body-composition records, account/profile/device/app metadata | Receives the core sensitive data. |
 | Tencent Bugly | Crash/exception telemetry plus user id/email/mobile/nickname | Identifiable telemetry and possible health/request context during failures. |
 | Phone local storage | Saved credentials, local queues, profile state, history records | Local extraction risk. |
-| Health Connect / Apple Health | Optional selected health values | User-permission controlled, but creates another copy/path. |
+| Health Connect / Apple Health / Fitbit | Optional selected health values | User-permission/token controlled, but creates another copy/path. |
 | Infrastructure provider | Hosting/network/log metadata, depending Daxin deployment | Infrastructure custody, not independent use proven. |
 | App-store labels | Developer-supplied data-practice declarations | The current declarations understate or conflict with the Android technical evidence. |
 
@@ -109,7 +115,8 @@ The app does not keep sensitive data in one privacy box:
 |---:|---|
 | 1 | Capture and archive Bytech/BWell privacy policy pages and identify whether they cover Bwell Health specifically. |
 | 1 | Capture Daxin privacy/legal pages in English and Chinese if available. |
-| 1 | Compare Google Play Data Safety and Apple App Privacy declarations against Android app evidence. |
+| 1 | Compare Google Play Data Safety and Apple App Privacy declarations against Android and decrypted iOS app evidence. |
+| 1 | Runtime-capture iOS Bwell Health to prove exact Daxin payloads and trigger conditions. |
 | 1 | Review Tencent Bugly SDK privacy statement for collected identifiers and crash data content. |
 | 2 | Runtime-test Sealy Smart Scale and Equate Monitors against static APK upload findings. |
 | 2 | Review additional Bytech health/device apps for shared package names, backends, SDKs, and privacy labels. |

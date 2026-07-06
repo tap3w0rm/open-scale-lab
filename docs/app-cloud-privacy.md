@@ -1,6 +1,8 @@
 # BWell Health App Cloud And Privacy Analysis
 
-This document summarizes what the reviewed BWell Health Android app sends to the vendor backend, what it stores locally, and what that means for privacy. It is written as a standalone public note.
+This document summarizes what the reviewed BWell Health Android and iOS apps
+send or are built to send to the vendor backend, what they store locally, and
+what that means for privacy. It is written as a standalone public note.
 
 ## App Identity
 
@@ -13,15 +15,36 @@ This document summarizes what the reviewed BWell Health Android app sends to the
 | Backend base URL | `https://tj.daxinhealth.com/` |
 | Scale upload endpoint | `https://tj.daxinhealth.com/composition/upload` |
 
-The app is not local-only. It is designed around account login, cloud upload, cloud history, dashboard data, and server-side record deletion.
+The Android app is not local-only. It is designed around account login, cloud
+upload, cloud history, dashboard data, and server-side record deletion.
+
+iOS evidence now shows the same backend family and upload concept:
+
+| Item | Value |
+|---|---|
+| iOS bundle | `com.bytechny.B-WELL` |
+| iOS version reviewed | `1.0.19` build `2` |
+| iOS backend base URL | `https://tj.daxinhealth.com/` |
+| iOS scale upload route | `composition/upload` |
+| iOS App Store privacy label | `Data Not Collected` |
+| iOS privacy manifest | `NSPrivacyCollectedDataTypes: []` |
 
 ## Summary
 
-Normal logged-in use sends final body-composition records to the company backend. The scale sends compact BLE data to the phone; the phone calculates the expanded body metrics locally; then the app uploads the finished record.
+Normal logged-in Android use sends final body-composition records to the company
+backend. The scale sends compact BLE data to the phone; the phone calculates the
+expanded body metrics locally; then the app uploads the finished record.
+
+The decrypted iOS app also contains code paths to build and upload a finished
+body-composition record to the same Daxin backend. Exact iOS runtime payloads
+still need network capture, but static/decompile evidence proves the upload
+code path exists.
 
 Data-safety posture: weak-to-moderate, cloud-dependent.
 
-If the privacy goal is "do not send my scale data to the company," the official app does not satisfy that goal when used normally with an account and network access.
+If the privacy goal is "do not send my scale data to the company," the official
+app does not satisfy that goal when used normally with an account and network
+access.
 
 ## Scale Upload Fields
 
@@ -87,6 +110,55 @@ The app also uses backend endpoints for history, dashboard, averages, and deleti
 | `/composition/get/data/month` | Monthly scale aggregate/average data. |
 
 These endpoints indicate backend retention and processing of scale records.
+
+## iOS Decrypted-App Upload Evidence
+
+The decrypted iOS app contains:
+
+```text
+https://tj.daxinhealth.com/
+composition/upload
+requestUploadBodyFat:success:failure:
+BLEHandler::uploadBodyfat:isOfflineData:
+```
+
+Ghidra recovered `HTTPRequestManager::requestUploadBodyFat:success:failure:`.
+That method builds a request dictionary for `composition/upload` with keys:
+
+```text
+userId
+moisture
+waterLevel
+boneMass
+boneLevel
+adiposeRate
+fatLevel
+bmr
+bmrLevel
+impedance
+bmi
+bmiLevel
+muscleQuantity
+muscleLevel
+visceralFat
+visfatLevel
+bodySocre
+physicalAge
+weight
+weightLevel
+protein
+proteinLevel
+boneMineralContent
+bmcLevel
+heartRate
+testDate
+```
+
+Ghidra also recovered `BLEHandler::uploadBodyfat:isOfflineData:`. That handler
+writes body data to Apple Health, optionally uploads weight/fat to Fitbit when
+Fitbit tokens exist, and calls the first-party Daxin body-fat upload method.
+
+See [iOS decrypted app teardown](ios-decrypted-app-teardown.md) for details.
 
 ## Account And Profile Data
 
@@ -159,7 +231,12 @@ Health Connect sync does not replace the vendor upload path. The official app ca
 
 ## Conclusion
 
-The official BWell Health app uploads sensitive body-composition records to a hardcoded backend. HTTPS protects transit against casual network observation, but it does not prevent the backend operator from receiving the data. Local saved password handling is weak, Android backup is enabled, and crash telemetry receives account identifiers.
+The official BWell Health app ecosystem is cloud-backed. Android upload behavior
+is directly proven by code. iOS upload code paths are proven by decrypted static
+analysis and Ghidra decompile, with runtime payload capture still pending. HTTPS
+protects transit against casual network observation, but it does not prevent the
+backend operator from receiving the data. Local Android saved password handling
+is weak, Android backup is enabled, and Android crash telemetry receives account
+identifiers.
 
 For a local-only privacy model, the official app should be avoided or isolated from network/account use.
-

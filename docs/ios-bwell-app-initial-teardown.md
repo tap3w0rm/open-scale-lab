@@ -1,6 +1,6 @@
 # Bwell Health iOS App Initial Teardown
 
-Last updated: 2026-07-04
+Last updated: 2026-07-05
 
 ## Acquisition Summary
 
@@ -139,14 +139,31 @@ same brand/app family. The correct evidence chain is:
 3. obtain decrypted executable or perform runtime traffic capture
 4. compare observed runtime behavior to the Apple privacy label
 
+## Later Decrypted-App Update
+
+This document reflects the initial encrypted App Store package review. A later
+decrypted-app review superseded the original evidence boundary.
+
+The decrypted iOS app confirmed:
+
+- base backend `https://tj.daxinhealth.com/`
+- body-composition upload route `composition/upload`
+- method-level upload path through
+  `BLEHandler::uploadBodyfat:isOfflineData:` and
+  `HTTPRequestManager::requestUploadBodyFat:success:failure:`
+- local offline body-fat storage and history/offline read behavior
+- Apple Health write behavior and optional Fitbit upload behavior
+
+See [iOS decrypted app teardown](ios-decrypted-app-teardown.md).
+
 ## Current Privacy-Label Position
 
 The Apple listing says `Data Not Collected`.
 
-Current iOS evidence does not yet prove that label false. It does, however,
-justify deeper testing because the Android app's confirmed behavior conflicts
-with its Google Play data-safety label, and the iOS package contains the
-expected account, profile, Bluetooth, health, and measurement surfaces.
+The encrypted-package-only review did not prove that label false. The later
+decrypted-app review is stronger: static and Ghidra analysis now prove iOS code
+paths for account/profile and health-measurement upload to the Daxin backend.
+Runtime traffic capture is still needed for exact per-workflow payloads.
 
 ## Next Testing Steps
 
@@ -161,4 +178,3 @@ Recommended next steps:
   App Store `Data Not Collected` label.
 - If a decrypted binary is obtained lawfully, compare embedded endpoints and
   telemetry SDKs to the Android evidence.
-

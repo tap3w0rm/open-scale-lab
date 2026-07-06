@@ -13,7 +13,10 @@ measurement records.
 
 The stronger, proven issue is different: the Android apps are cloud-backed and
 send account-linked health measurements to Daxin domains, while some app-store
-labels say no data is collected.
+labels say no data is collected. The decrypted iOS app now shows the same
+class of Daxin account/profile/history/upload code paths, including
+`composition/upload`, while the Apple App Store label and iOS privacy manifest
+say no data is collected.
 
 Defensible wording:
 
@@ -58,6 +61,7 @@ Code comparison:
 | Account-linked data | Upload uses `userid`; account/profile endpoints use email/phone/nickname/profile facts. |
 | Third-party telemetry | Android app initializes Tencent Bugly and sets user id/email/mobile/nickname. |
 | Backend vendor clarity | The BWell policy text reviewed does not clearly identify Daxin as backend operator or processor. |
+| iOS backend clarity | Decrypted iOS code uses Daxin backend routes, but the Apple label and iOS privacy manifest declare no collected data types. |
 
 ## Bytech Smart Home Policy Evidence
 
@@ -131,7 +135,8 @@ Why this matters:
 These Daxin-operated apps acknowledge health-data collection in store labels and
 policy language. That makes BWell's `No data collected` declarations more
 notable, because the BWell Android app uses a Daxin backend for similar kinds
-of scale/body-composition data.
+of scale/body-composition data, and the decrypted BWell iOS app contains Daxin
+upload code paths for similar data.
 
 ## Tencent Bugly Policy Evidence
 
@@ -164,12 +169,13 @@ telemetry identifiable at the app-account level.
 
 | Claim | Current status | Best wording |
 |---|---|---|
-| BWell Android collects scale data | Proven by code and BWell policy text. | The app collects/uploads account-linked scale records. |
+| BWell Android collects scale data | Proven by code and BWell policy text. | The Android app collects/uploads account-linked scale records. |
+| BWell iOS contains Daxin upload paths | Proven by decrypted binary and Ghidra decompile. | The iOS app contains code paths to upload body-composition records to Daxin; exact runtime payloads still need capture. |
 | Daxin receives BWell Android scale data | Proven by code endpoint. | The BWell Android app uploads scale records to a Daxin domain. |
 | BWell/Bytech sells scale data | Not proven; BWell and Bytech policies claim no sale. | No evidence of sale was found in this pass; policies claim no sale. |
 | Daxin sells scale data | Not proven; Daxin ehealth policy says it will not sell/rent/share/trade with unrelated third parties except as policy permits. | No evidence of sale was found in this pass. |
 | Service providers can receive data | Supported by policy language and code. | Policies allow service-provider/affiliate/third-party processing in some situations; code proves Bugly and Daxin flows. |
-| App-store labels match code | Mixed. | BWell and Equate labels appear inconsistent with Android code; Daxin's own ehealth labels are more explicit. |
+| App-store labels match code | Mixed. | BWell Android, BWell iOS, and Equate labels appear inconsistent with technical evidence; Daxin's own ehealth labels are more explicit. |
 
 ## Remaining Questions
 
@@ -182,3 +188,5 @@ telemetry identifiable at the app-account level.
    the `collectively, "Apple"` drafting error?
 6. Why do BWell and Equate app-store labels say no data is collected when
    Android code shows account-linked uploads?
+7. Why does the BWell iOS App Store label and privacy manifest say no data is
+   collected when decrypted iOS code contains Daxin upload paths?

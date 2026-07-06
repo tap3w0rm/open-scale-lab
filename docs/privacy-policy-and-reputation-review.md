@@ -6,7 +6,9 @@ This is not a final legal conclusion. It is an evidence tracker.
 
 ## Executive Summary
 
-The technical evidence proves that the Android app uploads health/body-composition records to a Daxin-hosted backend and sends identifiable crash telemetry to Tencent Bugly. The public-policy picture is less clear: the consumer-facing app publisher is Bytech/BWell, the hardware applicant is Shenzhen Belter, the backend is on Daxin's domain, and crash telemetry goes to Tencent Bugly.
+The technical evidence proves that the Android app uploads health/body-composition records to a Daxin-hosted backend and sends identifiable crash telemetry to Tencent Bugly. A later decrypted iOS review also proves that the current iOS app contains Daxin account/profile/history/upload code paths, including `composition/upload`, despite the Apple App Store `Data Not Collected` label and an empty iOS privacy manifest.
+
+The public-policy picture is less clear: the consumer-facing app publisher is Bytech/BWell, the hardware applicant is Shenzhen Belter, the backend is on Daxin's domain, and Android crash telemetry goes to Tencent Bugly.
 
 The main privacy gap is responsibility clarity. A user looking at the product, app store, app package, backend hostname, and FCC filing sees different companies at different layers.
 
@@ -14,12 +16,12 @@ Current strongest concerns:
 
 | Concern | Status |
 |---|---|
-| Health records uploaded to Daxin backend | Proven by Android code. |
+| Health records uploaded to Daxin backend | Proven by Android code; iOS upload code path also proven by decrypted binary/Ghidra review. |
 | Crash telemetry is identifiable | Proven by app setting Bugly user id/email/mobile/nickname. |
 | Bugly may receive health/request context on error paths | Plausible; not yet proven for routine measurement payloads. |
 | Daxin policy language allows intra-company/affiliate sharing | Found in Daxin website privacy text; product-specific scope unclear. |
 | Google Play says Android Bwell health has "No data collected" | Found in Google Play listing; conflicts with Android upload evidence. |
-| Apple App Store says iOS Bwell Health has "Data Not Collected" | Found in Apple listing; iOS runtime verification still needed before claiming a live iOS contradiction. |
+| Apple App Store says iOS Bwell Health has "Data Not Collected" | Found in Apple listing; conflicts with decrypted iOS static/decompile evidence. Runtime payload capture is still needed for exact request bodies and trigger conditions. |
 | Bytech policy linked from Google Play is broad and not BWell-specific | Found in Bytech Smart Home Privacy Policy. |
 | BWell policy page acknowledges app measurement storage | Extracted page-source text says BWell Health app measurement data is stored on the company server for history queries. |
 | Daxin's own scale app policy acknowledges health-data collection | Daxin `ehealth scale` policy says connected-device health data including weight, fat rate, BMI, and water rate is recorded. |
@@ -60,21 +62,22 @@ Current policy findings:
 | BWell policy measurement storage | The extracted text says measurement data from using the product will be stored on the company server for history queries. |
 | BWell policy sale/share claim | The extracted text says BWell does not sell data under New York, Nevada, and California definitions and will not share personal data with third parties without consent except when the user uses app sharing features. |
 | Apple App Privacy | Apple listing says `Data Not Collected` for `Bwell Health` by `BYTECH NY, INC.` |
+| iOS decrypted app evidence | Decrypted iOS version `1.0.19` build `2` contains `https://tj.daxinhealth.com/`, account/profile routes, `composition/upload`, cloud history routes, Apple Health writes, optional Fitbit upload, and `BLEHandler::uploadBodyfat:isOfflineData:` calling the Daxin body-fat upload method. |
 | Related app policy link | Sealy Smart Scale and Equate Monitors point users back toward Bytech policy pages while their Android packages contain Daxin backend upload paths. |
 
 Potential mismatch:
 
-The Android app uploads account-linked health records to `tj.daxinhealth.com`, but the Google Play listing currently says `No data collected` and `No data shared with third parties`. That is the clearest current app-store privacy-label conflict.
+The Android app uploads account-linked health records to `tj.daxinhealth.com`, but the Google Play listing currently says `No data collected` and `No data shared with third parties`. That remains a direct app-store privacy-label conflict against reviewed Android code.
 
-The Apple listing's `Data Not Collected` declaration applies to the iOS app declaration and is not automatically proof about Android. The official iOS package also declares no collected data in its privacy manifest, while visible resources show login, registration, upload, server, offline-sync, Bluetooth, and Apple Health flows. Runtime iOS network testing is required before saying the iOS declaration is false.
+The Apple listing's `Data Not Collected` declaration applies to the iOS app. The official iOS package also declares no collected data in its privacy manifest. The decrypted iOS executable now materially raises the concern: it contains Daxin account/profile routes, measurement-history routes, `composition/upload`, upload-request construction, and a BLE body-fat upload handler. That is strong static/decompile evidence that the iOS app is built to collect and upload health records. Runtime iOS network capture is still required before claiming the exact live payload, exact user workflow, and whether any no-account/offline mode avoids upload.
 
 Reputation/breach status:
 
 | Search area | Current result |
 |---|---|
 | Public breach reports | No credible Bytech/BWell breach found in first quick pass. |
-| Regulatory/litigation | Not yet systematically checked. |
-| App-store privacy concern | Potential privacy-label gap requiring verification. |
+| Regulatory/litigation | BBB profile gives Bytech an F rating for failure to respond to two complaints; California Prop 65 records exist for Bytech products. These are reputation/product-regulatory signals, not privacy-breach proof. |
+| App-store privacy concern | Google Play and Apple privacy labels conflict with technical evidence. |
 
 Open questions:
 
@@ -115,6 +118,7 @@ Policy findings:
 | Item | Finding |
 |---|---|
 | Backend endpoint | Android app posts scale records to `https://tj.daxinhealth.com/composition/upload`. |
+| iOS backend endpoint | Decrypted iOS app also contains `https://tj.daxinhealth.com/` and `composition/upload`. |
 | Related app endpoint | Sealy Smart Scale Android posts scale/body records under `https://sealy.daxinhealth.com/api`. |
 | Related app endpoint | Equate Monitors Android posts oxygen and temperature records under `https://test.daxinhealth.com`. |
 | Website privacy page | Daxin privacy page says personal information may be used and shared within the company or affiliated enterprises for services, transactions, understanding needs, and contact. |
@@ -304,12 +308,13 @@ Findings:
 | Official IPA | Apple-sourced IPA identifies bundle `com.bytechny.B-WELL`, version `1.0.19`, build `2`. |
 | iOS privacy manifest | The official package declares `NSPrivacyCollectedDataTypes: []`, no tracking, and no tracking domains. |
 | iOS app capabilities | The package declares Bluetooth, HealthKit, camera, photo library, and `NSAllowsArbitraryLoads: true`. |
-| iOS evidence boundary | The main executable is App Store encrypted, so runtime traffic capture is needed for backend claims. |
+| Decrypted iOS code | Decrypted executable shows Daxin account/profile/history/upload routes, `composition/upload`, `requestUploadBodyFat:success:failure:`, Apple Health writes, optional Fitbit routes, local offline body-fat storage, and scale history/offline read commands. |
+| iOS evidence boundary | Static/decompile evidence proves code paths and upload construction. Runtime traffic capture is still needed for exact live payloads, login/no-login behavior, and full workflow timing. |
 
 Open questions:
 
-- Does the iOS app use the same Daxin backend?
-- Is the `Data Not Collected` declaration accurate for the current iOS app?
+- Under which exact runtime workflows does the iOS app call `composition/upload`?
+- Does a no-account or offline iOS workflow avoid Daxin upload?
 
 ### Alibaba Cloud / Alibaba (US) Technology Co., Ltd.
 
@@ -338,7 +343,7 @@ Open questions:
 
 | Claim/source | Technical fact to compare |
 |---|---|
-| Apple `Data Not Collected` for Bwell Health | Does the iOS app actually avoid collection, or does it use the Daxin backend like Android? |
+| Apple `Data Not Collected` for Bwell Health | Decrypted iOS code contains Daxin upload paths despite the no-collection declaration; runtime capture should determine exact payloads and trigger conditions. |
 | Google Play `No data collected` for Bwell health | Android code uploads health/body-composition records to Daxin and sends identifiable crash telemetry to Bugly. |
 | Bytech/BWell privacy policy | Does it disclose Daxin backend, Tencent Bugly, Health Connect/Apple Health, retention, deletion, affiliates? |
 | Daxin privacy policy | Does it cover the BWell app specifically and sensitive health/body data? |
@@ -348,8 +353,8 @@ Open questions:
 
 | Entity | First-pass result | Confidence |
 |---|---|---:|
-| Bytech/BWell | No credible public data breach found in quick pass; related-app APK review strengthens ecosystem/backend concerns. | Low-medium |
-| Daxin | No credible public data breach found in quick pass; broad affiliate-sharing policy language and repeated backend use found. | Low-medium |
+| Bytech/BWell | No credible public data breach found in quick pass; decrypted iOS review and related-app APK review strengthen privacy-label/backend concerns. BBB and Prop 65 records are reputation/product-regulatory context only. | Medium |
+| Daxin | No credible public data breach found in quick pass; broad affiliate-sharing policy language, repeated backend use, and iOS/Android BWell upload paths found. | Medium |
 | Belter | No credible public data breach found in quick pass; regulatory/product records found. | Low-medium |
 | Chipsea | Not enough breach/reputation search completed. | Low |
 | Tencent Bugly | Proven telemetry SDK; policy/compliance review needed; anecdotal developer complaints require primary verification. | Medium |
@@ -364,5 +369,6 @@ Open questions:
 4. Capture Daxin privacy/legal pages in English and Chinese.
 5. Continue official breach/regulator portal searches for Bytech, Daxin, Belter, Chipsea, Tencent Bugly, and Alibaba Cloud.
 6. Ask Bytech and Daxin directly which entity is controller/processor for BWell, Sealy, and Equate records.
-7. Runtime-test Sealy Smart Scale and Equate Monitors to confirm the static Daxin upload paths.
-8. Start an evidence table for "sell/share" language by company.
+7. Runtime-test iOS Bwell Health for exact Daxin payloads, login/no-login behavior, Apple Health/Fitbit toggles, and offline/history sync.
+8. Runtime-test Sealy Smart Scale and Equate Monitors to confirm the static Daxin upload paths.
+9. Continue evidence table for "sell/share" language by company.

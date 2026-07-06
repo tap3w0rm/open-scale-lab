@@ -12,6 +12,7 @@ Distribution report, compiled from Android app reverse engineering, live BLE pro
 - [Related Bytech health and device apps](docs/related-bytech-health-apps.md)
 - [iOS app acquisition log](docs/ios-app-acquisition-log.md)
 - [iOS app initial teardown](docs/ios-bwell-app-initial-teardown.md)
+- [iOS decrypted app teardown](docs/ios-decrypted-app-teardown.md)
 - [BLE scale protocol](docs/ble-scale-protocol.md)
 - [Chipsea body-composition analysis](docs/chipsea-body-composition.md)
 
@@ -56,6 +57,7 @@ These are the strongest conclusions from the combined evidence.
 | A clear-history command is not fully proven. | Medium | History ACK and delete-all-user-info commands exist, but decompiled code does not prove which one clears stored measurements. |
 | Local saved password protection is weak. | High | Saved password is reversible DES with hardcoded key material derived from `MD5("Ze")`. |
 | Crash telemetry is tied to account identifiers. | High | Tencent Bugly is initialized and user id/email/mobile/nickname are set after login. |
+| The iOS app also contains Daxin upload code paths despite an Apple `Data Not Collected` label. | High for static code presence; runtime payload capture still pending | Decrypted iOS binary and Ghidra decompile show `composition/upload`, account/profile routes, `requestUploadBodyFat:success:failure:`, and `BLEHandler::uploadBodyfat:isOfflineData:`. |
 
 ## What Data Is Sent To The Company
 

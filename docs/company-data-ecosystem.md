@@ -14,6 +14,13 @@ https://tj.daxinhealth.com/composition/upload
 
 The app also proves use of Tencent Bugly crash reporting and optional Android Health Connect sync. Public store listings identify Bytech as the app publisher/seller context. FCC filings identify Shenzhen Belter as the hardware applicant/manufacturer. Public Daxin pages and app-store listings identify Guangzhou Daxin Health Technology as a health-device/cloud/app company operating `daxinhealth.com` properties.
 
+A later decrypted iOS review adds that Bwell Health iOS version `1.0.19` build
+`2` also contains `https://tj.daxinhealth.com/`, `composition/upload`,
+account/profile/history routes, Apple Health writes, optional Fitbit upload,
+and local offline body-fat storage. Runtime iOS traffic capture is still needed
+for exact payloads and trigger conditions, but the iOS backend code path is no
+longer merely inferred from strings or the Android app.
+
 What remains unknown: the private contractual and data-processing relationship between Bytech, Belter, Daxin, Chipsea, Tencent, Google, Apple, retailers, and any cloud-hosting provider.
 
 ## Data Flow Summary
@@ -25,11 +32,13 @@ What remains unknown: the private contractual and data-processing relationship b
 | BLE/body scale hardware family | Belter / EF919B4 family | FCC and manual evidence show Bluetooth body-composition scale hardware. |
 | Body-composition algorithm/chip ecosystem | Chipsea Technologies | The Android app includes a Chipsea native BIA library; Chipsea publicly markets smart scale/body-fat scale SOC, BLE, app, cloud, and BIA algorithm solutions. |
 | Official Android app | Bwell Health / `com.ebelter.bwell` | App reads BLE packets, calculates body values locally, queues final records, and uploads to Daxin backend. |
+| Official iOS app | Bwell Health / `com.bytechny.B-WELL` | Decrypted app reads scale body-fat packets, computes body values, stores offline/history records locally, can write Apple Health, can optionally upload Fitbit weight/fat, and contains Daxin upload/history/account routes. |
 | Backend API | `tj.daxinhealth.com` | Hardcoded endpoint receives scale upload JSON. Domain belongs to the Daxin Health domain family. |
 | Current backend hosting observation | Alibaba infrastructure | DNS currently resolves `tj.daxinhealth.com`, `sealy.daxinhealth.com`, `test.daxinhealth.com`, and `public.daxinhealth.com` to `47.88.15.99`; ipinfo reports that IP under `AS45102 Alibaba (US) Technology Co., Ltd.`. `common.daxinhealth.com` resolves to `8.134.36.208`, reported under Alibaba China infrastructure. This is hosting/infrastructure evidence, not proof of data use by Alibaba. |
 | Crash telemetry | Tencent Bugly | App initializes Tencent Bugly with app id `e81323d3e5` and sets user identifiers after login. |
 | Android optional health sharing | Google / Android Health Connect | App can write scale values to Health Connect when user enables it. Health Connect is permission controlled and separate from the vendor backend upload. |
-| iOS optional health sharing | Apple Health / HealthKit | App Store description for the iOS app says it can share health data to Apple Health. This is iOS-side ecosystem evidence, not directly from the Android APK. |
+| iOS optional health sharing | Apple Health / HealthKit | App Store description and decrypted iOS code show Apple Health write paths. This is user-permission controlled and separate from the Daxin backend upload path. |
+| iOS optional Fitbit sharing | Fitbit | Decrypted iOS code contains Fitbit weight/fat upload and token-revoke routes. Fitbit upload appears conditional on stored Fitbit tokens. |
 | Distribution/download platforms | Google Play, Apple App Store, APK mirrors | These distribute the app or metadata. They are not proven recipients of scale readings merely by hosting the app listing. |
 | Retailers | Walmart, eBay sellers, Security Depot, others | Retail/sales channel evidence only. No evidence they receive app measurement data. |
 
@@ -46,7 +55,8 @@ What remains unknown: the private contractual and data-processing relationship b
 | Chipsea Technologies (Shenzhen) Corp. | https://en.chipsea.com/ | Native BIA/body-composition algorithm provider; smart scale/body-fat scale solution provider. | Public company; stock code `688595`; subsidiaries/branches include Hefei, Xi'an, Shanghai, and Chengdu Chipsea/Xinhai entities per Chipsea contact pages. | The app runs a Chipsea native library locally. No evidence the reviewed app sends records to Chipsea servers. |
 | Tencent Bugly / Tencent | https://bugly.tds.tencent.com/ , https://www.tencent.com/ | Crash reporting and app telemetry SDK. | Bugly is a Tencent service. | App initializes Bugly and sets user id/email/mobile/nickname after login; HTTP/JSON exceptions can be posted to Bugly. Bugly is a proven third-party telemetry recipient. |
 | Google / Android Health Connect / Google Play | https://developer.android.com/health-and-fitness/health-connect , https://play.google.com/ | App distribution; optional Health Connect integration on Android. | Google LLC / Alphabet Inc. | Google Play distributes app metadata/download. Health Connect can receive weight/body-fat/BMR/bone values only if user enables permissions. Health Connect is separate from vendor backend upload. |
-| Apple / App Store / Apple HealthKit | https://developer.apple.com/documentation/healthkit , https://www.apple.com/legal/privacy/data/en/health-app/ | iOS app distribution and optional Apple Health sharing. | Apple Inc. | iOS listing says the app can share data to Apple Health. This does not prove Apple receives Android app data. Apple Health sharing is user-permission based. |
+| Apple / App Store / Apple HealthKit | https://developer.apple.com/documentation/healthkit , https://www.apple.com/legal/privacy/data/en/health-app/ | iOS app distribution and optional Apple Health sharing. | Apple Inc. | iOS listing and decrypted app code show Apple Health write capability. This does not prove Apple receives Android app data. Apple Health sharing is user-permission based. |
+| Fitbit | https://www.fitbit.com/ | Optional third-party health sync in the iOS app. | Google-owned Fitbit service. | Decrypted iOS code contains Fitbit weight/fat upload routes and token revocation. Upload appears conditional on stored Fitbit tokens. |
 | Alibaba Cloud / Alibaba infrastructure | https://www.alibabacloud.com/ | Current observed hosting/network for Daxin backend IPs. | Alibaba Cloud is part of Alibaba Group; ipinfo reports `47.88.15.99` as `AS45102 Alibaba (US) Technology Co., Ltd.` and `8.134.36.208` as `AS37963 Hangzhou Alibaba Advertising Co.,Ltd.` | Infrastructure-level involvement only. Hosting provider may carry/store traffic as part of cloud service, but app evidence does not prove Alibaba uses health data for its own purposes. |
 | Retailers and resellers | Walmart, eBay, Security Depot and others | Product sales channels. | Varies. | No evidence they receive app/backend measurement records. |
 
@@ -112,6 +122,7 @@ Data role assessment:
 - Bytech also appears as publisher/developer for adjacent health/device apps such as Sealy Smart Scale and Equate Monitors. The Sealy Smart Scale Google Play listing identifies Bytech NY, Inc. with the same Brooklyn address and lists other Bytech apps including Bwell health and Equate Monitors.
 - Bytech appears in FCC records for other radio products under FRN `0025388125`, which supports that it is an active device importer/app publisher ecosystem rather than a one-off app listing.
 - The reviewed Android app's health-record backend does not use a Bytech domain; it uses Daxin.
+- The decrypted iOS app also uses Daxin backend routes.
 - Therefore, the evidence supports Bytech as the app/brand owner but does not prove Bytech directly operates the measurement database.
 
 ## Hardware/OEM Notes: Shenzhen Belter
@@ -183,9 +194,13 @@ Important privacy split:
 
 ### Apple Health / HealthKit
 
-The iOS App Store listing for `Bwell Health` says the app can share health data to Apple Health. Apple's HealthKit documentation describes HealthKit as a permission-controlled way for apps to access and share health/fitness data while maintaining user control.
+The iOS App Store listing for `Bwell Health` says the app can share health data
+to Apple Health. The decrypted iOS app contains HealthKit identifiers and code
+paths that write measured body data through `SSHealthKitManager`. Apple's
+HealthKit documentation describes HealthKit as a permission-controlled way for
+apps to access and share health/fitness data while maintaining user control.
 
-This is relevant to the broader BWell app ecosystem, but it is not evidence from the Android APK.
+This path is separate from the Daxin backend upload route.
 
 ## What They Do With The Data: Known vs Unknown
 
@@ -196,6 +211,8 @@ Known from app code:
 | Daxin backend | Receives final scale-upload JSON at `/composition/upload`. Provides history, averages, delete, dashboard, login, profile, and initialization endpoints. |
 | Tencent Bugly | Receives crash/exception telemetry and app-set user identifiers. |
 | Android Health Connect | Can receive selected health values only when enabled by the user. |
+| Apple HealthKit | iOS can write selected measured body data when enabled by the user. |
+| Fitbit | iOS can optionally upload weight/fat when Fitbit tokens are present. |
 | App local storage | Stores queued upload records, local history/current records, saved credentials, and user/profile state. |
 
 Known from public policies/statements:

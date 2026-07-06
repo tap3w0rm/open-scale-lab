@@ -149,7 +149,7 @@ Record search strings even when no credible hit is found. "No credible public br
 |---|---|
 | Daxin privacy policy | Backend domain receives the health records. Need retention/sharing/deletion language. |
 | Bytech/BWell privacy policy | Consumer-facing app publisher/brand. Need controller responsibility and sell/share language. |
-| Apple App Store `Data Not Collected` declaration for Bwell Health | Potential mismatch with cloud-connected app behavior; must verify iOS separately before alleging contradiction. |
+| Apple App Store `Data Not Collected` declaration for Bwell Health | Decrypted iOS code now shows Daxin account/profile/history/upload paths despite the no-collection declaration; runtime capture is still needed for exact payloads and workflows. |
 | Google Play app privacy/data safety label | Must compare against Android code evidence. |
 | Tencent Bugly SDK privacy | Proven telemetry recipient with user identifiers set by app. |
 | Daxin affiliates | Daxin says personal info may be shared within company or affiliated enterprises. Need list and policy scope. |
@@ -166,4 +166,4 @@ Record search strings even when no credible hit is found. "No credible public br
 | Likely but not proven business relationship | "The evidence suggests..." |
 | No public breach found | "No credible public breach record was found in this pass..." |
 | Vendor/infrastructure only | "Infrastructure-level involvement only; no evidence of independent data use..." |
-| App-store label mismatch not fully proven | "Potential mismatch requiring platform-specific verification..." |
+| App-store label mismatch with static/decompile proof | "The label conflicts with reviewed app code; runtime capture is still needed for exact payloads and trigger conditions..." |

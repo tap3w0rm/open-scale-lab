@@ -1,6 +1,6 @@
 # iOS App Acquisition Log
 
-Last updated: 2026-07-04
+Last updated: 2026-07-05
 
 ## Target
 
@@ -118,6 +118,33 @@ The main executable was still App Store encrypted, so static review can inspect
 metadata, entitlements, resources, strings, and linked frameworks, but not the
 decrypted executable logic.
 
+## Decryption Follow-Up
+
+The App Store package was later installed on a test iPad and decrypted for local
+research. The decrypted IPA is not redistributed in this repository.
+
+| Item | Value |
+|---|---|
+| App name | `Bwell Health` |
+| Bundle ID | `com.bytechny.B-WELL` |
+| Version | `1.0.19` |
+| Build | `2` |
+| Decrypted IPA SHA-256 | `E50A24B8C32375DC2CE6AF33110419737992F618E2F3118AEC67903B49EEEABC` |
+
+The decrypted app confirmed the same Daxin backend family observed in Android:
+
+```text
+https://tj.daxinhealth.com/
+```
+
+It also exposed route strings and method-level decompile evidence for
+`composition/upload`, account/profile APIs, other health-device upload APIs,
+Apple Health writing, optional Fitbit upload, and local offline body-fat
+storage.
+
+See [iOS decrypted app teardown](ios-decrypted-app-teardown.md) for the detailed
+evidence.
+
 ## Current Evidence Boundary
 
 Confirmed:
@@ -126,13 +153,13 @@ Confirmed:
 - The acquired package identifies as `com.bytechny.B-WELL`.
 - The acquired package version is `1.0.19`.
 - The package includes Bluetooth and Apple Health-related capability evidence.
-- The main executable is encrypted and requires runtime/device work for deeper
-  behavior confirmation.
+- A decrypted copy of the same version was obtained for local research.
+- Static and Ghidra analysis prove iOS code paths for account/profile handling
+  and health-measurement upload to `https://tj.daxinhealth.com/`.
 
 Not proven yet:
 
-- That the iOS app uploads scale measurements to the Daxin backend.
-- That the iOS app contradicts the Apple `Data Not Collected` label in runtime
-  behavior.
-- That the iOS app has the same telemetry behavior as the reviewed Android app.
-
+- Exact runtime request bodies for every app workflow.
+- Whether upload occurs without login.
+- Whether every successful measurement reaches the upload handler.
+- Whether the app can be used fully offline without later sync.

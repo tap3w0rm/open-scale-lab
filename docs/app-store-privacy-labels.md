@@ -13,19 +13,19 @@ Both major app-store listings reviewed report no collection of user data:
 | Platform | App | Publisher | Current label found | Status |
 |---|---|---|---|---|
 | Google Play | `Bwell health` / `com.ebelter.bwell` | Bytech Intl | `No data collected`; `No data shared with third parties` | Conflicts with Android code evidence. |
-| Apple App Store | `Bwell Health` / `com.bytechny.B-WELL` | BYTECH NY, INC. | `Data Not Collected` | iOS-specific network behavior still needs runtime verification. |
+| Apple App Store | `Bwell Health` / `com.bytechny.B-WELL` | BYTECH NY, INC. | `Data Not Collected` | Conflicts with decrypted iOS static/decompile evidence; exact runtime payload capture still pending. |
 
 The Android finding is the stronger mismatch right now because the reviewed
 Android app contains a hardcoded backend and an upload path for final
 body-composition records.
 
-The iOS finding is not yet a proven contradiction. The iOS app package is
-official and shows account/upload/server-related UI strings plus HealthKit and
-Bluetooth permissions, but the main executable is App Store encrypted. Runtime
-traffic capture is still required before claiming that the iOS label is false.
-See the [iOS app acquisition log](ios-app-acquisition-log.md) and
-[iOS app initial teardown](ios-bwell-app-initial-teardown.md) for the current
-iOS evidence boundary.
+The iOS finding is now stronger than the initial encrypted-package review. A
+decrypted iOS app review and Ghidra pass recovered the Daxin backend,
+`composition/upload`, account/profile routes, and a body-fat upload flow through
+`BLEHandler::uploadBodyfat:isOfflineData:` and
+`HTTPRequestManager::requestUploadBodyFat:success:failure:`. Runtime traffic
+capture is still required for exact request bodies under each user workflow.
+See the [iOS decrypted app teardown](ios-decrypted-app-teardown.md).
 
 Related Bytech health apps show the same pattern is worth broader review. Sealy
 Smart Scale Android discloses some collection in Google Play and its reviewed
@@ -177,6 +177,73 @@ These strings do not prove a current iOS cloud upload destination. They do prove
 that the iOS app was built with account, server, upload, and offline-sync flows,
 which makes runtime traffic capture a high-priority next step.
 
+## Decrypted iOS App Evidence
+
+A decrypted copy of the same iOS app version was later obtained from an
+installed App Store copy for local research. It is not redistributed here.
+
+| Item | Value |
+|---|---|
+| Bundle ID | `com.bytechny.B-WELL` |
+| Version | `1.0.19` |
+| Build | `2` |
+| Decrypted IPA SHA-256 | `E50A24B8C32375DC2CE6AF33110419737992F618E2F3118AEC67903B49EEEABC` |
+
+The decrypted executable contains:
+
+```text
+https://tj.daxinhealth.com/
+composition/upload
+requestUploadBodyFat:success:failure:
+requestUploadBloodPressure:success:failure:
+requestUploadOxygen:success:failure:
+requestUploadTemperature:success:failure:
+requestLoginWithAccount:password:success:failure:
+requestRegisterUser:emailVeriCode:success:failure:
+requestRegisterUser:mobileVeriCode:success:failure:
+```
+
+Ghidra recovered `HTTPRequestManager::requestUploadBodyFat:success:failure:`.
+The method builds a `composition/upload` request containing:
+
+```text
+userId
+moisture
+waterLevel
+boneMass
+boneLevel
+adiposeRate
+fatLevel
+bmr
+bmrLevel
+impedance
+bmi
+bmiLevel
+muscleQuantity
+muscleLevel
+visceralFat
+visfatLevel
+bodySocre
+physicalAge
+weight
+weightLevel
+protein
+proteinLevel
+boneMineralContent
+bmcLevel
+heartRate
+testDate
+```
+
+Ghidra also recovered `BLEHandler::uploadBodyfat:isOfflineData:`. That handler
+writes body data to Apple Health, optionally uploads Fitbit weight/fat when
+Fitbit tokens exist, and calls the first-party Daxin body-fat upload method.
+
+Accurate current position: the iOS app contains static code paths for collecting
+and uploading account-linked health/body-composition data, despite the App Store
+label and privacy manifest indicating no collected data. Runtime network capture
+is still needed for exact payloads and per-workflow triggering.
+
 ## Policy Links Point To Different Disclosures
 
 The two app stores link to different policy locations:
@@ -205,14 +272,14 @@ Sealy Smart Scale:
 | Platform | Public label | Technical evidence |
 |---|---|---|
 | Google Play | No third-party sharing; may collect `Location` and `Personal info`. | Reviewed Android APK posts scale/body-composition records to `https://sealy.daxinhealth.com/api/composition/upload` and offline batches to `/composition/uploadOffLine`. |
-| Apple App Store | `Data Not Linked to You`; `Identifiers / User ID` for app functionality. | iOS package not reviewed in this pass. |
+| Apple App Store | `Data Not Linked to You`; `Identifiers / User ID` for app functionality. | Sealy iOS package not reviewed in this pass. |
 
 Equate Monitors:
 
 | Platform | Public label | Technical evidence |
 |---|---|---|
 | Google Play | May share `Location`; `No data collected`. | Reviewed Android APK posts oxygen records to `https://test.daxinhealth.com/bloodOxygen/upload` and temperature records to `https://test.daxinhealth.com/temperature/upload`. |
-| Apple App Store | Needs app-specific capture. | iOS package not reviewed in this pass. |
+| Apple App Store | `Data Not Collected` in checked storefront. | Equate iOS package not reviewed in this pass. |
 
 The Equate label is especially notable because the public listing says the app
 can display, record, and view historical measurement data, while the reviewed
@@ -248,7 +315,8 @@ being labeled.
 | Apple App Store says iOS Bwell Health collects no data | High | Direct store listing capture. |
 | iOS app package declares no collected data in privacy manifest | High | Official Apple-sourced IPA metadata. |
 | iOS app has account/upload/server UI flows | Medium-high | Visible strings in official IPA resources. |
-| iOS app actually uploads health records to Daxin or any backend | Unknown | Requires runtime traffic capture or decrypted app analysis. |
+| iOS app contains code paths to upload health records to Daxin | High | Decrypted binary and Ghidra decompile show backend URL, `composition/upload`, upload request construction, and BLE upload handler call path. |
+| iOS app actually transmits those records during a specific runtime workflow | Medium | Static/decompile evidence is strong, but exact workflow triggering and payload capture still require dynamic testing. |
 | Sealy Smart Scale Android uploads body-composition records to Daxin | High | Reviewed APK hardcodes Daxin backend and upload/offline-upload endpoints. |
 | Equate Monitors Android uploads oxygen and temperature records to Daxin | High | Reviewed APK hardcodes Daxin backend and upload endpoints. |
 | Equate Monitors Google Play label appears inconsistent with Android technical behavior | High | Public label says `No data collected`; reviewed Android code posts account-linked measurement records. |
@@ -259,10 +327,10 @@ being labeled.
 1. Capture Google Play Data Safety detail view if available.
 2. Capture the BWell JavaScript-rendered privacy page linked by Apple.
 3. Preserve dated screenshots or page captures of both app-store privacy labels.
-4. Test iOS runtime network behavior on a research iPhone.
-5. If the iOS app transmits account, health, device, or telemetry data, compare
-   the observed data categories directly against Apple's `Data Not Collected`
-   label and the empty `NSPrivacyCollectedDataTypes` manifest.
+4. Test iOS runtime network behavior on a research iPhone or iPad.
+5. Compare observed iOS request bodies and workflow triggers directly against
+   Apple's `Data Not Collected` label and the empty
+   `NSPrivacyCollectedDataTypes` manifest.
 6. Capture Google Play Data Safety detail views for Sealy Smart Scale and
    Equate Monitors.
 7. Runtime-test Equate Monitors network behavior to confirm the static upload
