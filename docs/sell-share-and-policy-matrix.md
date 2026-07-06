@@ -127,6 +127,7 @@ Daxin's own app-store labels are more explicit than BWell's labels.
 | App | Platform | Label summary |
 |---|---|---|
 | `ehealth scale` | Apple App Store | Says `Health & Fitness` data may be collected and linked to identity. |
+| `ehealth scale` | Google Play | Says no third-party sharing; may collect personal info, health and fitness, and app info/performance. |
 | `ehealth life` | Apple App Store China | Says identifiers may be used for tracking and health/fitness, location, contact info, user content, and identifiers may be linked to identity. |
 | `ehealth life` | Google Play | Says no third-party sharing; may collect personal info, health and fitness, and photos/videos. |
 

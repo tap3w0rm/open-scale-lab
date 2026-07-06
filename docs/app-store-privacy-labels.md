@@ -323,6 +323,7 @@ Health's labels:
 | App | Platform | Developer | Public label |
 |---|---|---|---|
 | `ehealth scale` | Apple App Store | Guangzhou Daxin Health Technology Co., Ltd | `Health & Fitness` data may be collected and linked to identity. |
+| `ehealth scale` | Google Play | Guangzhou Daxin Health Technology Co., Ltd | No third-party sharing; may collect personal info, health and fitness, and app info/performance. |
 | `ehealth life` | Apple App Store China | Guangzhou Daxin Health Technology Co., Ltd | Identifiers may be used for tracking; health/fitness, location, contact info, user content, and identifiers may be linked to identity. |
 | `ehealth life` | Google Play | Guangzhou Daxin Health Technology Co., Ltd | No third-party sharing; may collect personal info, health and fitness, and photos/videos. |
 

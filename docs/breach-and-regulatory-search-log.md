@@ -147,6 +147,32 @@ Results and classification:
 | Smart-scale security literature | Prior smart-scale security research found BLE/app privacy and security issues in other brands. | General threat context only; not evidence against BWell unless reproduced on this device/app. |
 | Belter/Chipsea dirty-laundry pass | No credible Belter or Chipsea privacy breach found in this pass. Results were mostly filings, protocol/community support, or unrelated noise. | Absence of evidence only. |
 
+### 2026-07-05 Fresh Follow-Up Pass
+
+Additional searches:
+
+```text
+"Guangzhou Daxin Health Technology" privacy data breach penalty
+"Daxin Health" "data breach" "privacy"
+"BYTECH NY" "data breach" privacy
+"Bwell Health" "Data Not Collected" "Daxin"
+"Guangzhou Daxin Health Technology" "行政处罚"
+"广州大新健康科技" "处罚" OR "泄露" OR "隐私"
+"广州大新健康科技有限公司" "数据" "隐私"
+"daxinhealth.com" "privacy" "ehealth scale"
+```
+
+Results and classification:
+
+| Lead | Result | Classification |
+|---|---|---|
+| Bytech/Daxin breach search | No credible Bytech-, BWell-, or Guangzhou Daxin-specific breach notice found in this quick pass. | Absence of evidence only; not proof no incident exists. |
+| Chinese penalty/privacy search | Results mostly returned broad regulator pages, unrelated health/advertising penalty articles, Daxin app policy pages, and unrelated privacy cases. No Daxin-specific privacy penalty was confirmed in this pass. | Keep searching official Chinese regulator portals. |
+| `Daxin` ransomware search noise | Results for "Daxin Team" ransomware are a threat-group naming collision and not evidence about Guangzhou Daxin Health Technology. | Exclude unless a source ties it to the company, which this pass did not. |
+| Daxin `ehealth scale` Google Play | Current listing says no third-party sharing, but may collect personal info, health and fitness, and app info/performance. | Useful baseline: Daxin's own Google Play scale-app label acknowledges health-data collection. |
+| Daxin `ehealth scale` Apple App Store | Current listing says Health & Fitness data may be collected and linked to identity. | Useful baseline: Daxin's own Apple scale-app label acknowledges linked health-data collection. |
+| Daxin general privacy page | Says personal information may be used/shared within the company or affiliated enterprises. | Policy context; not specific proof about BWell backend controller/processor roles. |
+
 ### Shenzhen Belter
 
 Used or planned:
