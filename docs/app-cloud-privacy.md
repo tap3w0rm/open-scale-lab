@@ -158,6 +158,24 @@ Ghidra also recovered `BLEHandler::uploadBodyfat:isOfflineData:`. That handler
 writes body data to Apple Health, optionally uploads weight/fat to Fitbit when
 Fitbit tokens exist, and calls the first-party Daxin body-fat upload method.
 
+A deeper Ghidra pass recovered the common POST helper:
+
+```text
+HTTPRequestManager::sendPOSTParameters:appendUrl:success:failure:
+```
+
+That helper builds the final URL from `https://tj.daxinhealth.com/` plus the
+append route, logs `url=%@parameters=%@`, obtains the app HTTP session, and
+hands the request to the AFNetworking POST path. This means the iOS finding is
+not only a route-string finding: static/decompile evidence shows request-body
+construction, Daxin URL construction, and handoff to HTTP POST machinery.
+
+The same pass also recovered an offline queue flow. `OfflineDataUtility::
+checkOfflineDataWithUserId:` reads queued `OfflineBodyFat` rows from `DBUtil`,
+obtains `HTTPRequestManager::shareManager`, and calls the body-fat upload
+method. Success paths delete rows by offline database id. This supports an
+iOS offline/history upload model in addition to live measurement handling.
+
 See [iOS decrypted app teardown](ios-decrypted-app-teardown.md) for details.
 
 ## Account And Profile Data

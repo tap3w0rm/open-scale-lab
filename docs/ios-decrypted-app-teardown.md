@@ -392,6 +392,35 @@ The method builds a dictionary and sends it to:
 composition/upload
 ```
 
+A deeper Ghidra export added caller/callee evidence. The body-fat upload method
+references the `composition/upload` route, and `BLEHandler::uploadBodyfat:
+isOfflineData:` calls the body-fat upload selector:
+
+```text
+BLEHandler::uploadBodyfat:isOfflineData:
+  -> HTTPRequestManager::requestUploadBodyFat:success:failure:
+
+HTTPRequestManager::requestUploadBodyFat:success:failure:
+  -> composition/upload
+```
+
+The shared POST helper is:
+
+```text
+HTTPRequestManager::sendPOSTParameters:appendUrl:success:failure:
+```
+
+That helper builds the final URL from:
+
+```text
+https://tj.daxinhealth.com/
+```
+
+plus the append URL, logs the URL and parameters, obtains the app HTTP session,
+and sends the request through the AFNetworking POST path. This is stronger
+than a bare route-string finding: the decompile shows request construction,
+Daxin URL construction, and handoff to POST machinery.
+
 Confirmed request keys:
 
 ```text
@@ -449,6 +478,16 @@ This is the strongest iOS privacy finding:
 > code calls the first-party Daxin body-fat upload method. Fitbit is optional;
 > Daxin upload is the app's own backend path.
 
+The recovered pseudocode shows this order:
+
+1. Update local user weight.
+2. If resistance is available, update local user resistance.
+3. Convert the test time into an `NSDate`.
+4. Write body data to Apple Health through `SSHealthKitManager`.
+5. Check `NSUserDefaults` for `FitbitAccessToken` and `FitbitTokenType`.
+6. If both Fitbit values exist, upload Fitbit weight/fat.
+7. Call `requestUploadBodyFat:success:failure:` for Daxin upload.
+
 What still needs dynamic testing:
 
 - Whether this handler is reached for every final measurement.
@@ -478,6 +517,24 @@ uploadBodyfat:isOfflineData:
 
 This supports the model that offline/history readings can be stored locally and
 later uploaded.
+
+A deeper Ghidra pass also recovered offline queue helpers:
+
+```text
+DBUtil::insertOfflineBodyFat:
+DBUtil::deleteOfflineBodyFatWithDbID:
+DBUtil::selectAllSuspectedOfflineDataWithUserID:
+DBUtil::selectAllUnsuspectedOfflineDataWithUserID:
+DBUtil::selectLastSuspectedOfflineDataWithUserID:
+OfflineDataUtility::checkOfflineDataWithUserId:
+```
+
+`OfflineDataUtility::checkOfflineDataWithUserId:` obtains queued offline
+records from `DBUtil`, obtains `HTTPRequestManager::shareManager`, and calls
+the body-fat upload method on queued records. Other recovered code deletes
+offline rows by database id after success paths. This supports an offline queue
+model: the app is not limited to only sending a live measurement at the moment
+it is taken.
 
 ## Login, Profile, and Credential Storage
 

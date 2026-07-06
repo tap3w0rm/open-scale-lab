@@ -239,6 +239,27 @@ Ghidra also recovered `BLEHandler::uploadBodyfat:isOfflineData:`. That handler
 writes body data to Apple Health, optionally uploads Fitbit weight/fat when
 Fitbit tokens exist, and calls the first-party Daxin body-fat upload method.
 
+A deeper Ghidra export strengthened the call chain:
+
+```text
+BT_CBManager::readBodyFatData:
+  -> delegate didReceivedBodyFatResult...
+
+BLEHandler::uploadBodyfat:isOfflineData:
+  -> requestUploadBodyFat:success:failure:
+
+HTTPRequestManager::requestUploadBodyFat:success:failure:
+  -> composition/upload
+
+HTTPRequestManager::sendPOSTParameters:appendUrl:success:failure:
+  -> https://tj.daxinhealth.com/ + appendUrl
+  -> AFNetworking POST path
+```
+
+The same pass recovered offline queue helpers for `OfflineBodyFat` rows and an
+offline-data checker that uploads queued body-fat records through the same
+body-fat upload method.
+
 Accurate current position: the iOS app contains static code paths for collecting
 and uploading account-linked health/body-composition data, despite the App Store
 label and privacy manifest indicating no collected data. Runtime network capture

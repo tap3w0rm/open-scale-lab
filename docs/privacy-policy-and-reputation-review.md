@@ -62,7 +62,7 @@ Current policy findings:
 | BWell policy measurement storage | The extracted text says measurement data from using the product will be stored on the company server for history queries. |
 | BWell policy sale/share claim | The extracted text says BWell does not sell data under New York, Nevada, and California definitions and will not share personal data with third parties without consent except when the user uses app sharing features. |
 | Apple App Privacy | Apple listing says `Data Not Collected` for `Bwell Health` by `BYTECH NY, INC.` |
-| iOS decrypted app evidence | Decrypted iOS version `1.0.19` build `2` contains `https://tj.daxinhealth.com/`, account/profile routes, `composition/upload`, cloud history routes, Apple Health writes, optional Fitbit upload, and `BLEHandler::uploadBodyfat:isOfflineData:` calling the Daxin body-fat upload method. |
+| iOS decrypted app evidence | Decrypted iOS version `1.0.19` build `2` contains `https://tj.daxinhealth.com/`, account/profile routes, `composition/upload`, cloud history routes, Apple Health writes, optional Fitbit upload, and `BLEHandler::uploadBodyfat:isOfflineData:` calling the Daxin body-fat upload method. A deeper Ghidra pass also showed Daxin URL construction and AFNetworking POST handoff. |
 | Related app policy link | Sealy Smart Scale and Equate Monitors point users back toward Bytech policy pages while their Android packages contain Daxin backend upload paths. |
 
 Potential mismatch:
@@ -308,7 +308,7 @@ Findings:
 | Official IPA | Apple-sourced IPA identifies bundle `com.bytechny.B-WELL`, version `1.0.19`, build `2`. |
 | iOS privacy manifest | The official package declares `NSPrivacyCollectedDataTypes: []`, no tracking, and no tracking domains. |
 | iOS app capabilities | The package declares Bluetooth, HealthKit, camera, photo library, and `NSAllowsArbitraryLoads: true`. |
-| Decrypted iOS code | Decrypted executable shows Daxin account/profile/history/upload routes, `composition/upload`, `requestUploadBodyFat:success:failure:`, Apple Health writes, optional Fitbit routes, local offline body-fat storage, and scale history/offline read commands. |
+| Decrypted iOS code | Decrypted executable shows Daxin account/profile/history/upload routes, `composition/upload`, `requestUploadBodyFat:success:failure:`, Daxin URL construction, AFNetworking POST handoff, Apple Health writes, optional Fitbit routes, local offline body-fat storage, and scale history/offline read commands. |
 | iOS evidence boundary | Static/decompile evidence proves code paths and upload construction. Runtime traffic capture is still needed for exact live payloads, login/no-login behavior, and full workflow timing. |
 
 Open questions:
